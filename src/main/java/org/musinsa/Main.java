@@ -20,19 +20,22 @@ public class Main {
 
         while (true) {
             System.out.print("입력(o[order]: 주문, q[quit]: 종료): ");
-            String input = scanner.nextLine().trim();
+            String input = scanner.nextLine().trim().toLowerCase();
 
-            if (input.equalsIgnoreCase("o")) {
-                productController.displayProducts();
-                productController.processOrder(scanner);
-            } else if (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit")) {  // 종료 옵션
-                System.out.println("고객님의 주문 감사합니다.");
-                break;
-            } else {
-                System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+            switch (input) {
+                case "o":
+                    productController.displayProducts();
+                    productController.processOrder(scanner);
+                    break;
+                case "q":
+                case "quit":
+                    System.out.println("고객님의 주문 감사합니다.");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+                    break;
             }
         }
-
-        scanner.close();
     }
 }
