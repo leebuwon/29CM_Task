@@ -21,10 +21,10 @@ public enum Product {
     ITEM_778422(778422, "캠핑덕 우드롤테이블", 45000, 7),
     ITEM_648418(648418, "BS 02-2A DAYPACK 26 (BLACK)", 238000, 5);
 
-    private final int id;
-    private final String name;
-    private final int price;
-    private final int stock;
+    private int id;
+    private String name;
+    private int price;
+    private int stock;
 
     Product(int id, String name, int price, int stock) {
         this.id = id;
