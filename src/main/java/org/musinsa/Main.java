@@ -12,27 +12,27 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ProductService productService = new ProductService();  // ProductService 인스턴스 생성
+        ProductService productService = new ProductService();
         OrderService orderService = new OrderService();
-        ProductController productController = new ProductController(productService, orderService);  // 생성자에 주입
+        ProductController productController = new ProductController(productService, orderService);
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.print("입력(o[order]: 주문, q[quit]: 종료): ");
-            String input = scanner.nextLine().trim();  // 사용자 입력 받기
+            String input = scanner.nextLine().trim();
 
-            if (input.equalsIgnoreCase("o")) {  // 주문 옵션
+            if (input.equalsIgnoreCase("o")) {
                 productController.displayProducts();
-                productController.processOrder(scanner);  // Scanner를 인자로 넘김
+                productController.processOrder(scanner);
             } else if (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("quit")) {  // 종료 옵션
                 System.out.println("고객님의 주문 감사합니다.");
-                break;  // 프로그램 종료 전에 반복문을 빠져나옴
+                break;
             } else {
-                System.out.println("잘못된 입력입니다. 다시 입력해주세요.");  // 잘못된 입력 처리
+                System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
             }
         }
 
-        scanner.close();  // Scanner는 반복문 종료 후 단 한 번만 닫힘
+        scanner.close();
     }
 }
