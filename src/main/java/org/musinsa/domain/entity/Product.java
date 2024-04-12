@@ -53,5 +53,17 @@ public enum Product {
     public int getStock() {
         return stock;
     }
+
+    /**
+     * 재고 감소
+     * 재고가 적다면 exception
+     */
+    public void reduceStock(int quantity) {
+        if (this.stock >= quantity) {
+            this.stock -= quantity;
+        } else {
+            throw new IllegalArgumentException("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
+        }
+    }
 }
 

@@ -1,9 +1,9 @@
 package org.musinsa.domain.service;
 
+import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 public class ProductService {
     private final Product[] products;
@@ -13,10 +13,21 @@ public class ProductService {
         Arrays.sort(this.products, Comparator.comparing(Product::getId).reversed());
     }
 
-    public void displayProducts() {
-        System.out.println(String.format("%-8s %-28s %-7s %s", "상품번호", "상품명", "판매가격", "재고수"));
+    public Product[] getSortedProducts() {
+        return products;
+    }
+
+    public void reduceStock(int productId, int quantity) {
+        Product product = getProductById(productId);
+        product.reduceStock(quantity);
+    }
+
+    public Product getProductById(int productId) {
         for (Product product : products) {
-            System.out.println(String.format("%-10d %-30s %-12d %d", product.getId(), product.getName(), product.getPrice(), product.getStock()));
+            if (product.getId() == productId) {
+                return product;
+            }
         }
+        throw new IllegalArgumentException("잘못된 상품번호입니다.");
     }
 }
