@@ -5,20 +5,20 @@ import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.NotFoundProductIdException;
 import org.musinsa.domain.service.OrderService;
 import org.musinsa.domain.service.ProductService;
+import org.musinsa.domain.util.Console;
 import org.musinsa.view.OrderListView;
 import org.musinsa.view.ProductListView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 
 public class ProductController {
     private final ProductService productService;
     private final OrderService orderService;
     private final ProductListView productListView;
     private final OrderListView orderListView;
-    private final Scanner scanner;
+    private final Console console;
     private final List<Order> orders = new ArrayList<>();
 
     /**
@@ -26,18 +26,17 @@ public class ProductController {
      */
     public ProductController(ProductService productService, OrderService orderService,
                              ProductListView productListView, OrderListView orderListView,
-                             Scanner scanner) {
+                             Console console) {
         this.productService = productService;
         this.orderService = orderService;
         this.productListView = productListView;
         this.orderListView = orderListView;
-        this.scanner = scanner;
+        this.console = console;
     }
 
     public void run() {
         while (true) {
-            System.out.print("입력(o[order]: 주문, q[quit]: 종료): ");
-            String input = scanner.nextLine().trim().toLowerCase();
+            String input = console.getInput("입력(o[order]: 주문, q[quit]: 종료): ");
 
             switch (input) {
                 case "o":
@@ -47,7 +46,7 @@ public class ProductController {
                 case "q":
                 case "quit":
                     System.out.println("고객님의 주문 감사합니다.");
-                    scanner.close();
+                    console.close();
                     return;
                 default:
                     System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
@@ -63,10 +62,8 @@ public class ProductController {
 
     private void processOrderWrapper() {
         while (true) {
-            System.out.print("상품번호: ");
-            String productIdInput = scanner.nextLine().trim();
-            System.out.print("수량: ");
-            String quantityInput = scanner.nextLine().trim();
+            String productIdInput = console.getInput("상품번호: ");
+            String quantityInput = console.getInput("수량: ");
 
             if (processOrder(productIdInput, quantityInput)) {
                 break;
