@@ -38,7 +38,7 @@ public class OrderService {
         System.out.println("----------------------------------");
         for (Order order : finalOrders.values()) {
             Product product = order.getProduct();
-            System.out.println(product.getName() + " - " + order.getQuantity());
+            System.out.println(product.getName() + " - " + order.getQuantity() + "개");
         }
 
         System.out.println("----------------------------------");

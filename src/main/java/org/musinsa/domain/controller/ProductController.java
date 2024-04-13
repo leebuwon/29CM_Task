@@ -14,12 +14,39 @@ public class ProductController {
     private final ProductService productService;
     private final OrderService orderService;
     private final ProductListView productListView;
+    private final Scanner scanner;
     private final List<Order> orders = new ArrayList<>();
 
-    public ProductController(ProductService productService, OrderService orderService, ProductListView productListView) {
+    /**
+     * Factory에서 생성 후 주입
+     */
+    public ProductController(ProductService productService, OrderService orderService, ProductListView productListView, Scanner scanner) {
         this.productService = productService;
         this.orderService = orderService;
         this.productListView = productListView;
+        this.scanner = scanner;
+    }
+
+    public void run() {
+        while (true) {
+            System.out.print("입력(o[order]: 주문, q[quit]: 종료): ");
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            switch (input) {
+                case "o":
+                    displayProducts();
+                    processOrder();
+                    break;
+                case "q":
+                case "quit":
+                    System.out.println("고객님의 주문 감사합니다.");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+                    break;
+            }
+        }
     }
 
     public void displayProducts() {
@@ -27,7 +54,7 @@ public class ProductController {
         productListView.displayProducts(products);
     }
 
-    public void processOrder(Scanner scanner) {
+    public void processOrder() {
         while (true) {
             System.out.print("상품번호: ");
             String productIdInput = scanner.nextLine();
@@ -60,8 +87,7 @@ public class ProductController {
                     orders.add(new Order(product, quantity));
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                break;
+                System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
             }
         }
     }
