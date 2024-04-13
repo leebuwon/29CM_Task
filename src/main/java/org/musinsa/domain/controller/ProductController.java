@@ -97,10 +97,7 @@ public class ProductController {
     private void handleOrderProcess(int productId, int quantity) throws NotFoundProductIdException{
         Product product = productService.findProductId(productId);
 
-        Optional<Order> existingOrder = orders.stream()
-                .filter(order -> order.getProduct().getId() == productId)
-                .findFirst();
-
+        Optional<Order> existingOrder = findExistingOrder(productId);
         existingOrder.ifPresentOrElse(
                 e -> {
                     orders.remove(e);
@@ -110,6 +107,12 @@ public class ProductController {
         );
 
         productService.reduceStock(productId, quantity);
+    }
+
+    private Optional<Order> findExistingOrder(int productId) {
+        return orders.stream()
+                .filter(order -> order.getProduct().getId() == productId)
+                .findFirst();
     }
 
     private void currentOrderList() {
