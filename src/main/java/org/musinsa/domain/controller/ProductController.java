@@ -109,7 +109,8 @@ public class ProductController {
 
     private boolean displayOrders(String productIdInput, String quantityInput) {
         if (productIdInput.isEmpty() && quantityInput.isEmpty()) {
-            orderService.displayOrders(orders);
+            Integer totalAmount = orderService.prepareFinalOrders(orders);
+            orderListView.displayOrders(orders, totalAmount);
             orders.clear();
             return true;
         }
