@@ -2,19 +2,18 @@ package org.musinsa;
 
 
 import org.musinsa.domain.controller.ProductController;
-import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.service.OrderService;
 import org.musinsa.domain.service.ProductService;
+import org.musinsa.view.ProductListView;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         ProductService productService = new ProductService();
         OrderService orderService = new OrderService();
-        ProductController productController = new ProductController(productService, orderService);
+        ProductListView productListView = new ProductListView();
+        ProductController productController = new ProductController(productService, orderService, productListView);
 
         Scanner scanner = new Scanner(System.in);
 

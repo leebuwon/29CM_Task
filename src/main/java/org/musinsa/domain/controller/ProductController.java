@@ -4,6 +4,7 @@ import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.service.OrderService;
 import org.musinsa.domain.service.ProductService;
+import org.musinsa.view.ProductListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,20 +13,18 @@ import java.util.Scanner;
 public class ProductController {
     private final ProductService productService;
     private final OrderService orderService;
+    private final ProductListView productListView;
     private final List<Order> orders = new ArrayList<>();
 
-    public ProductController(ProductService productService, OrderService orderService) {
+    public ProductController(ProductService productService, OrderService orderService, ProductListView productListView) {
         this.productService = productService;
         this.orderService = orderService;
+        this.productListView = productListView;
     }
 
     public void displayProducts() {
         Product[] products = productService.getSortedProducts();
-        System.out.println(String.format("%-8s %-28s %-7s %s", "상품번호", "상품명", "판매가격", "재고수"));
-        for (Product product : products) {
-            System.out.println(String.format("%-10d %-30s %-12d %d", product.getId(), product.getName(), product.getPrice(), product.getStock()));
-        }
-        System.out.print("\n");
+        productListView.displayProducts(products);
     }
 
     public void processOrder(Scanner scanner) {
