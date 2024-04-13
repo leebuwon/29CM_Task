@@ -2,6 +2,7 @@ package org.musinsa.domain.controller;
 
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
+import org.musinsa.domain.exception.NotFoundProductIdException;
 import org.musinsa.domain.service.OrderService;
 import org.musinsa.domain.service.ProductService;
 import org.musinsa.view.OrderListView;
@@ -9,6 +10,7 @@ import org.musinsa.view.ProductListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ProductController {
@@ -73,43 +75,51 @@ public class ProductController {
     }
 
     public boolean processOrder(String productIdInput, String quantityInput) {
-        if (displayOrders(productIdInput, quantityInput)) {
+        if (totalOrder(productIdInput, quantityInput)) {
             return true;
         }
 
+        int productId = Integer.parseInt(productIdInput);
+        int quantity = Integer.parseInt(quantityInput);
         try {
-            int productId = Integer.parseInt(productIdInput);
-            int quantity = Integer.parseInt(quantityInput);
-            productService.reduceStock(productId, quantity);
             Product product = productService.getProductById(productId);
 
-            Order existingOrder = null;
-            for (Order order : orders) {
-                if (order.getProduct().getId() == productId) {
-                    existingOrder = order;
-                    break;
-                }
-            }
+            Optional<Order> existingOrder = orders.stream()
+                    .filter(order -> order.getProduct().getId() == productId)
+                    .findFirst();
 
-            if (existingOrder != null) {
-                orders.remove(existingOrder);
-                orders.add(existingOrder.addQuantity(quantity));
-            } else {
-                orders.add(new Order(product, quantity));
-            }
+            existingOrder.ifPresentOrElse(
+                    e -> {
+                        orders.remove(e);
+                        orders.add(e.addQuantity(quantity));
+                    },
+                    () -> orders.add(new Order(product, quantity))
+            );
+
+            productService.reduceStock(productId, quantity);
             return false;
-        } catch (NumberFormatException e) {
-            System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
-            return false;
+        } catch (NotFoundProductIdException e) {
+            System.out.println(e.getMessage());
+            currentOrderList();
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return true;
         }
     }
 
-    private boolean displayOrders(String productIdInput, String quantityInput) {
+    private void currentOrderList() {
+        if (!orders.isEmpty()) {
+            Integer totalAmount = orderService.totalAmount(orders);
+            orderListView.displayOrders(orders, totalAmount);
+        } else {
+            System.out.println("현재 주문 내역이 없습니다.");
+        }
+    }
+
+    private boolean totalOrder(String productIdInput, String quantityInput) {
         if (productIdInput.isEmpty() && quantityInput.isEmpty()) {
-            Integer totalAmount = orderService.prepareFinalOrders(orders);
+            Integer totalAmount = orderService.totalAmount(orders);
             orderListView.displayOrders(orders, totalAmount);
             orders.clear();
             return true;

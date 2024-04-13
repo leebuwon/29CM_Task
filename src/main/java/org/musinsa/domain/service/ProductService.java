@@ -2,6 +2,7 @@ package org.musinsa.domain.service;
 
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
+import org.musinsa.domain.exception.NotFoundProductIdException;
 
 import java.util.*;
 
@@ -31,6 +32,6 @@ public class ProductService {
                 return product;
             }
         }
-        throw new IllegalArgumentException("잘못된 상품번호입니다.");
+        throw new NotFoundProductIdException("NotFoundProductIdException 발생, 잘못된 상품번호입니다.");
     }
 }

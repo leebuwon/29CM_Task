@@ -3,14 +3,13 @@ package org.musinsa.domain.service;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class OrderService {
 
-    public Integer prepareFinalOrders(List<Order> orders) {
+    public Integer totalAmount(List<Order> orders) {
         if (orders.isEmpty()) {
             return null;
         }
