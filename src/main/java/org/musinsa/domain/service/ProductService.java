@@ -8,6 +8,9 @@ import java.util.*;
 public class ProductService {
     private final Product[] products;
 
+    /**
+     * product List 역순 정렬
+     */
     public ProductService() {
         this.products = Product.values();
         Arrays.sort(this.products, Comparator.comparing(Product::getId).reversed());

@@ -50,5 +50,6 @@ public class OrderService {
         System.out.println("----------------------------------");
         System.out.println("지불금액: " + formatter.format(totalAmount));
         System.out.println("----------------------------------");
+        System.out.print("\n");
     }
 }
