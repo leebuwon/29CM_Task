@@ -35,8 +35,8 @@ public class ProductController {
             System.out.print("수량: ");
             String quantityInput = scanner.nextLine();
 
-            if (productIdInput.trim().isEmpty() && quantityInput.trim().isEmpty()) {
-                orderService.displayOrders(orders);
+            if (displayOrders(productIdInput, quantityInput)) {
+                orders.clear();
                 break;
             }
 
@@ -46,16 +46,18 @@ public class ProductController {
                 productService.reduceStock(productId, quantity);
                 Product product = productService.getProductById(productId);
 
-                boolean found = false;
+                Order existingOrder = null;
                 for (Order order : orders) {
                     if (order.getProduct().getId() == productId) {
-                        orders.add(order.addQuantity(quantity));
-                        found = true;
+                        existingOrder = order;
                         break;
                     }
                 }
 
-                if (!found) {
+                if (existingOrder != null) {
+                    orders.remove(existingOrder);
+                    orders.add(existingOrder.addQuantity(quantity));
+                } else {
                     orders.add(new Order(product, quantity));
                 }
             } catch (Exception e) {
@@ -63,5 +65,13 @@ public class ProductController {
                 break;
             }
         }
+    }
+
+    private boolean displayOrders(String productIdInput, String quantityInput) {
+        if (productIdInput.trim().isEmpty() && quantityInput.trim().isEmpty()) {
+            orderService.displayOrders(orders);
+            return true;
+        }
+        return false;
     }
 }
