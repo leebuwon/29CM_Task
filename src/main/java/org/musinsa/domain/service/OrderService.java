@@ -3,6 +3,7 @@ package org.musinsa.domain.service;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
 public class OrderService {
 
     private static final int deliveryFee = 2500;
+    private static final DecimalFormat formatter = new DecimalFormat("#,##0원");
 
     public void displayOrders(List<Order> orders) {
         if (orders.isEmpty()) {
@@ -40,11 +42,13 @@ public class OrderService {
         }
 
         System.out.println("----------------------------------");
+        System.out.println("주문 금액: " + formatter.format(totalAmount));
         if (totalAmount < 50000) {
-            System.out.println("배송비: " + deliveryFee);
+            System.out.println("배송비: " + formatter.format(deliveryFee));
             totalAmount += deliveryFee;
         }
-        System.out.println("지불금액: " + totalAmount);
+        System.out.println("----------------------------------");
+        System.out.println("지불금액: " + formatter.format(totalAmount));
         System.out.println("----------------------------------");
     }
 }
