@@ -3,6 +3,7 @@ package org.musinsa.domain.controller;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.NotFoundProductIdException;
+import org.musinsa.domain.exception.SoldOutException;
 import org.musinsa.domain.service.OrderService;
 import org.musinsa.domain.service.ProductService;
 import org.musinsa.domain.util.Console;
@@ -72,18 +73,24 @@ public class ProductController {
             int productId = Integer.parseInt(productIdInput);
             int quantity = Integer.parseInt(quantityInput);
 
-            processOrder(productId, quantity);
+
+            if (processOrder(productId, quantity)){
+                break;
+            }
         }
     }
 
-    public void processOrder(int productId, int quantity) {
+    public boolean processOrder(int productId, int quantity) {
         try {
             handleOrderProcess(productId, quantity);
+            return false;
         } catch (NotFoundProductIdException e) {
             System.out.println(e.getMessage());
-        } catch (Exception e) {
+            return false;
+        } catch (SoldOutException e) {
             System.out.println(e.getMessage());
             orders.clear();
+            return true;
         }
     }
 
