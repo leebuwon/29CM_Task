@@ -18,6 +18,7 @@ public class OrderListView {
             return;
         }
 
+        System.out.println("주문 내역: ");
         System.out.println(line);
         for (Order order : orders) {
             Product product = order.getProduct();
