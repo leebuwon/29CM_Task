@@ -3,12 +3,11 @@ package org.musinsa.domain.service;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderService {
 
-    public void printOrders(List<Order> orders) {
+    public void displayOrders(List<Order> orders) {
         if (orders.isEmpty()) {
             System.out.println("주문한 내역이 없습니다.");
             return;

@@ -1,5 +1,7 @@
 package org.musinsa.domain.entity;
 
+import org.musinsa.domain.exception.SoldOutException;
+
 public enum Product {
     ITEM_768848(768848, "[STANLEY] GO CERAMIVAC 진공 텀블러/보틀 3종", 21000, 45),
     ITEM_748943(748943, "디오디너리 데일리 세트 (Daily set)", 19000, 89),
@@ -62,7 +64,7 @@ public enum Product {
         if (this.stock >= quantity) {
             this.stock -= quantity;
         } else {
-            throw new IllegalArgumentException("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
+            throw new SoldOutException("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
         }
     }
 }

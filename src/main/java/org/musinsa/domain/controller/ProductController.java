@@ -36,7 +36,7 @@ public class ProductController {
             String quantityInput = scanner.nextLine();
 
             if (productIdInput.trim().isEmpty() && quantityInput.trim().isEmpty()) {
-                orderService.printOrders(orders);
+                orderService.displayOrders(orders);
                 break;
             }
 
@@ -45,7 +45,19 @@ public class ProductController {
                 int quantity = Integer.parseInt(quantityInput.trim());
                 productService.reduceStock(productId, quantity);
                 Product product = productService.getProductById(productId);
-                orders.add(new Order(product, quantity));
+
+                boolean found = false;
+                for (Order order : orders) {
+                    if (order.getProduct().getId() == productId) {
+                        orders.add(order.addQuantity(quantity));
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    orders.add(new Order(product, quantity));
+                }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 break;
