@@ -63,46 +63,46 @@ public class ProductController {
     private void processOrderWrapper() {
         while (true) {
             String productIdInput = console.getInput("상품번호: ");
-            String quantityInput = console.getInput("수량: ");
-
-            if (processOrder(productIdInput, quantityInput)) {
+            if (productIdInput.isEmpty()) {
+                currentOrderList();
+                orders.clear(); // 주문 목록을 초기화 해주는 로직
                 break;
             }
+            String quantityInput = console.getInput("수량: ");
+            int productId = Integer.parseInt(productIdInput);
+            int quantity = Integer.parseInt(quantityInput);
+
+            processOrder(productId, quantity);
         }
     }
 
-    public boolean processOrder(String productIdInput, String quantityInput) {
-        if (totalOrder(productIdInput, quantityInput)) {
-            return true;
-        }
-
-        int productId = Integer.parseInt(productIdInput);
-        int quantity = Integer.parseInt(quantityInput);
+    public void processOrder(int productId, int quantity) {
         try {
-            Product product = productService.getProductById(productId);
-
-            Optional<Order> existingOrder = orders.stream()
-                    .filter(order -> order.getProduct().getId() == productId)
-                    .findFirst();
-
-            existingOrder.ifPresentOrElse(
-                    e -> {
-                        orders.remove(e);
-                        orders.add(e.addQuantity(quantity));
-                    },
-                    () -> orders.add(new Order(product, quantity))
-            );
-
-            productService.reduceStock(productId, quantity);
-            return false;
+            handleOrderProcess(productId, quantity);
         } catch (NotFoundProductIdException e) {
             System.out.println(e.getMessage());
-            currentOrderList();
-            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return true;
+            orders.clear();
         }
+    }
+
+    private void handleOrderProcess(int productId, int quantity) throws NotFoundProductIdException{
+        Product product = productService.findProductId(productId);
+
+        Optional<Order> existingOrder = orders.stream()
+                .filter(order -> order.getProduct().getId() == productId)
+                .findFirst();
+
+        existingOrder.ifPresentOrElse(
+                e -> {
+                    orders.remove(e);
+                    orders.add(e.addQuantity(quantity));
+                },
+                () -> orders.add(new Order(product, quantity))
+        );
+
+        productService.reduceStock(productId, quantity);
     }
 
     private void currentOrderList() {
@@ -112,15 +112,5 @@ public class ProductController {
         } else {
             System.out.println("현재 주문 내역이 없습니다.");
         }
-    }
-
-    private boolean totalOrder(String productIdInput, String quantityInput) {
-        if (productIdInput.isEmpty() && quantityInput.isEmpty()) {
-            Integer totalAmount = orderService.totalAmount(orders);
-            orderListView.displayOrders(orders, totalAmount);
-            orders.clear();
-            return true;
-        }
-        return false;
     }
 }

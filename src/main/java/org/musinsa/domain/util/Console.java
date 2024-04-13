@@ -17,8 +17,4 @@ public class Console {
     public void close() {
         scanner.close();
     }
-
-    public void showMessage(String message) {
-        System.out.println(message);
-    }
 }

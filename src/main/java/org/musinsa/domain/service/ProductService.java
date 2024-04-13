@@ -1,6 +1,5 @@
 package org.musinsa.domain.service;
 
-import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.NotFoundProductIdException;
 
@@ -22,11 +21,11 @@ public class ProductService {
     }
 
     public void reduceStock(int productId, int quantity) {
-        Product product = getProductById(productId);
+        Product product = findProductId(productId);
         product.reduceStock(quantity);
     }
 
-    public Product getProductById(int productId) {
+    public Product findProductId(int productId) {
         for (Product product : products) {
             if (product.getId() == productId) {
                 return product;
