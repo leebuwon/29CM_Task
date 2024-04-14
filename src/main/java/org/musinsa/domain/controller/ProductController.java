@@ -112,7 +112,8 @@ public class ProductController {
     private void finalOrderList() {
         if (!orders.isEmpty()) {
             Integer totalAmount = orderService.totalAmount(orders);
-            orderListView.displayOrders(orders, totalAmount);
+            int deliveryFee = orderService.deliveryFee(totalAmount);
+            orderListView.displayOrders(orders, totalAmount, deliveryFee);
             return;
         }
 

@@ -9,10 +9,9 @@ import java.util.List;
 public class OrderListView {
 
     private static final String line = "-------------------------------------";
-    private static final int deliveryFee = 2500;
     private static final DecimalFormat formatter = new DecimalFormat("#,##0원");
 
-    public void displayOrders(List<Order> orders, Integer totalAmount) {
+    public void displayOrders(List<Order> orders, Integer totalAmount, int deliveryFee) {
         if (totalAmount == null || orders.isEmpty()) {
             System.out.println("주문한 내역이 없습니다.");
             return;
@@ -27,12 +26,12 @@ public class OrderListView {
 
         System.out.println(line);
         System.out.println("주문 금액: " + formatter.format(totalAmount));
-        if (totalAmount < 50000) {
+        if (deliveryFee > 0) {
             System.out.println("배송비: " + formatter.format(deliveryFee));
-            totalAmount += deliveryFee;
         }
+
         System.out.println(line);
-        System.out.println("지불금액: " + formatter.format(totalAmount));
+        System.out.println("지불금액: " + formatter.format(totalAmount + deliveryFee));
         System.out.println(line);
         System.out.print("\n");
     }
