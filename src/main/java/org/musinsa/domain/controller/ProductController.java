@@ -85,7 +85,7 @@ public class ProductController {
         }
     }
 
-    private void handleOrderProcess(int productId, int quantity) throws NotFoundProductIdException{
+    public synchronized void handleOrderProcess(int productId, int quantity) throws NotFoundProductIdException{
         Product product = productService.findProductId(productId);
         Order existingOrder = findExistingOrder(productId)
                 .orElse(null);
