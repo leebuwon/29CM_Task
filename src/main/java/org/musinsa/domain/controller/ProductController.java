@@ -52,17 +52,13 @@ public class ProductController {
         while (true) {
             String productIdInput = console.getInput("상품번호: ");
             String quantityInput = console.getInput("수량: ");
-
-            if (exitOrder(productIdInput, quantityInput)) {
-                break;
-            }
+            if (exitOrder(productIdInput, quantityInput)) break;
 
             int productId = Integer.parseInt(productIdInput);
             int quantity = Integer.parseInt(quantityInput);
 
-            if (processOrder(productId, quantity)){
-                break;
-            }
+            if (processOrder(productId, quantity)) break;
+
         }
     }
 
@@ -91,12 +87,10 @@ public class ProductController {
 
     private void handleOrderProcess(int productId, int quantity) throws NotFoundProductIdException{
         Product product = productService.findProductId(productId);
-
         Order existingOrder = findExistingOrder(productId)
                 .orElse(null);
 
         existingOrderOrNot(existingOrder, product, quantity);
-
         productService.reduceStock(productId, quantity);
     }
 
