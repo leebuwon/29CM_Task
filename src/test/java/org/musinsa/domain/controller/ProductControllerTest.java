@@ -3,10 +3,13 @@ package org.musinsa.domain.controller;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.SoldOutException;
 import org.musinsa.domain.factory.Factory;
+import org.musinsa.domain.service.ProductService;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,6 +23,9 @@ public class ProductControllerTest {
     @InjectMocks
     private ProductController productController;
 
+    @Mock
+    private ProductService productService;
+
     @BeforeEach
     void setUp() {
         productController = Factory.createProductController();
@@ -27,16 +33,16 @@ public class ProductControllerTest {
 
     /**
      * ITEM_782858(782858, "폴로 랄프로렌 남성 수영복반바지 컬렉션 (51color)", 39500, 50),
-     * 10명의 고객이 10개씩 구매한다고 가정
-     * 5명은 성공하고 5명은 실패 (SoldOutException 발생했을 경우 failCount 증가
-     * 직접 SoldOutException 잡는 것이 아닌 failCount 증가로 판별하였습니다.
+     * 100명의 고객이 1개씩 구매한다고 가정
+     * 50명은 성공하고 50명은 실패 (SoldOutException 발생했을 경우 failCount 증가
+     * 직접 SoldOutException 잡는 것이 아닌 catch를 통하여 failCount 증가로 판별하였습니다.
      */
     @Test
-    @DisplayName("멀티 스레드환경에서 주문 수량을 초과하면 SoldOutException 발생")
+    @DisplayName("멀티 스레드환경에서 주문 수량을 초과하면 SoldOutException 발생한다.")
     void multiThreadedOrderExceedsStockThrowsSoldOut_success() throws InterruptedException {
         Product product = Product.ITEM_782858;
 
-        int numThreads = 10;
+        int numThreads = 100;
         CountDownLatch doneSignal = new CountDownLatch(numThreads);
         ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
 
@@ -46,9 +52,9 @@ public class ProductControllerTest {
         for (int i = 0; i < numThreads; i++){
             executorService.execute(() -> {
                 try {
-                    productController.executeOrder(product.getId(), 10);
+                    productController.executeOrder(product.getId(), 1);
                     successCount.getAndIncrement();
-                } catch (SoldOutException e) {
+                } catch (SoldOutException e) { // SoldOutException 발생할 경우 failCount 증가
                     failCount.getAndIncrement();
                 } finally {
                     doneSignal.countDown();
@@ -59,8 +65,8 @@ public class ProductControllerTest {
         doneSignal.await();
         executorService.shutdown();
 
-        assertThat(successCount.get()).isEqualTo(5);
-        assertThat(failCount.get()).isEqualTo(5);
+        assertThat(successCount.get()).isEqualTo(50);
+        assertThat(failCount.get()).isEqualTo(50);
     }
 
     @Test
@@ -73,7 +79,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("재고보다 많은 수량을 구매하면 SoldOutException 발생")
+    @DisplayName("재고보다 많은 수량을 구매하면 SoldOutException 발생한다.")
     void OrderExceedsStockThrowsSoldOut_success() {
         Product product = Product.ITEM_768848;
 
