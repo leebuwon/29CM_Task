@@ -97,16 +97,22 @@ public class ProductController {
     private void handleOrderProcess(int productId, int quantity) throws NotFoundProductIdException{
         Product product = productService.findProductId(productId);
 
-        Optional<Order> existingOrder = findExistingOrder(productId);
-        existingOrder.ifPresentOrElse(
-                e -> {
-                    orders.remove(e);
-                    orders.add(e.addQuantity(quantity));
-                },
-                () -> orders.add(new Order(product, quantity))
-        );
+        Order existingOrder = findExistingOrder(productId)
+                .orElse(null);
+
+        existingOrderOrNot(existingOrder, product, quantity);
 
         productService.reduceStock(productId, quantity);
+    }
+
+    private void existingOrderOrNot(Order existingOrder, Product product, int quantity) {
+        if (existingOrder != null){
+            orders.remove(existingOrder);
+            orders.add(existingOrder.addQuantity(quantity));
+            return;
+        }
+
+        orders.add(new Order(product, quantity));
     }
 
     private Optional<Order> findExistingOrder(int productId) {
