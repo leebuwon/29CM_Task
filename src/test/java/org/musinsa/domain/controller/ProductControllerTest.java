@@ -45,7 +45,7 @@ public class ProductControllerTest {
         for (int i = 0; i < numThreads; i++){
             executorService.execute(() -> {
                 try {
-                    productController.handleOrderProcess(product.getId(), 10);
+                    productController.executeOrder(product.getId(), 10);
                     successCount.getAndIncrement();
                 } catch (SoldOutException e) {
                     failCount.getAndIncrement();

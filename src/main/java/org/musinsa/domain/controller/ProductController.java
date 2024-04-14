@@ -31,7 +31,7 @@ public class ProductController {
             switch (input) {
                 case "o" -> {
                     displayProducts();
-                    processOrderWrapper();
+                    processOrderInput();
                 }
                 case "q", "quit" -> {
                     System.out.println("고객님의 주문 감사합니다.");
@@ -48,7 +48,7 @@ public class ProductController {
         productListView.displayProducts(products);
     }
 
-    private void processOrderWrapper() {
+    private void processOrderInput() {
         while (true) {
             String productIdInput = console.getInput("상품번호: ");
             String quantityInput = console.getInput("수량: ");
@@ -58,7 +58,6 @@ public class ProductController {
             int quantity = Integer.parseInt(quantityInput);
 
             if (processOrder(productId, quantity)) break;
-
         }
     }
 
@@ -73,7 +72,7 @@ public class ProductController {
 
     public boolean processOrder(int productId, int quantity) {
         try {
-            handleOrderProcess(productId, quantity);
+            executeOrder(productId, quantity);
             return false;
         } catch (NotFoundProductIdException e) {
             System.out.println(e.getMessage());
@@ -85,16 +84,16 @@ public class ProductController {
         }
     }
 
-    public synchronized void handleOrderProcess(int productId, int quantity) throws NotFoundProductIdException{
+    public synchronized void executeOrder(int productId, int quantity) throws NotFoundProductIdException{
         Product product = productService.findProductId(productId);
         Order existingOrder = findExistingOrder(productId)
                 .orElse(null);
 
-        existingOrderOrNot(existingOrder, product, quantity);
+        updateOrAddOrder(existingOrder, product, quantity);
         productService.reduceStock(productId, quantity);
     }
 
-    private void existingOrderOrNot(Order existingOrder, Product product, int quantity) {
+    private void updateOrAddOrder(Order existingOrder, Product product, int quantity) {
         if (existingOrder != null){
             orders.remove(existingOrder);
             orders.add(existingOrder.addQuantity(quantity));
