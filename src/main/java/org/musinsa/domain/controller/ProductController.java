@@ -120,8 +120,9 @@ public class ProductController {
         if (!orders.isEmpty()) {
             Integer totalAmount = orderService.totalAmount(orders);
             orderListView.displayOrders(orders, totalAmount);
-        } else {
-            System.out.println("현재 주문 내역이 없습니다.");
+            return;
         }
+
+        System.out.println("현재 주문 내역이 없습니다.");
     }
 }
