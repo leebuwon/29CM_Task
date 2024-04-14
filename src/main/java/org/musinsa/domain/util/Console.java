@@ -9,8 +9,8 @@ public class Console {
         this.scanner = new Scanner(System.in);
     }
 
-    public String getInput(String prompt) {
-        System.out.print(prompt);
+    public String getInput(String message) {
+        System.out.print(message);
         return scanner.nextLine().trim().toLowerCase();
     }
 

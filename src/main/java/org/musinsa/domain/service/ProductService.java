@@ -26,11 +26,9 @@ public class ProductService {
     }
 
     public Product findProductId(int productId) {
-        for (Product product : products) {
-            if (product.getId() == productId) {
-                return product;
-            }
-        }
-        throw new NotFoundProductIdException("NotFoundProductIdException 발생, 잘못된 상품번호입니다.");
+        return Arrays.stream(products)
+                .filter(product -> product.getId() == productId)
+                .findFirst()
+                .orElseThrow(() -> new NotFoundProductIdException("NotFoundProductIdException 발생, 잘못된 상품번호입니다."));
     }
 }

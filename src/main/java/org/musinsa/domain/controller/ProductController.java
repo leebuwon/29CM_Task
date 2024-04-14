@@ -29,18 +29,16 @@ public class ProductController {
             String input = console.getInput("입력(o[order]: 주문, q[quit]: 종료): ");
 
             switch (input) {
-                case "o":
+                case "o" -> {
                     displayProducts();
                     processOrderWrapper();
-                    break;
-                case "q":
-                case "quit":
+                }
+                case "q", "quit" -> {
                     System.out.println("고객님의 주문 감사합니다.");
                     console.close();
                     return;
-                default:
-                    System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
-                    break;
+                }
+                default -> System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
             }
         }
     }
@@ -53,20 +51,28 @@ public class ProductController {
     private void processOrderWrapper() {
         while (true) {
             String productIdInput = console.getInput("상품번호: ");
-            if (productIdInput.isEmpty()) {
-                finalOrderList();
-                orders.clear(); // 주문 목록을 초기화 해주는 로직
+            String quantityInput = console.getInput("수량: ");
+
+            if (exitOrder(productIdInput, quantityInput)) {
                 break;
             }
-            String quantityInput = console.getInput("수량: ");
+
             int productId = Integer.parseInt(productIdInput);
             int quantity = Integer.parseInt(quantityInput);
-
 
             if (processOrder(productId, quantity)){
                 break;
             }
         }
+    }
+
+    private boolean exitOrder(String productIdInput, String quantityInput) {
+        if (productIdInput.isEmpty() && quantityInput.isEmpty()) {
+            finalOrderList();
+            orders.clear(); // 주문 목록을 초기화 해주는 로직
+            return true;
+        }
+        return false;
     }
 
     public boolean processOrder(int productId, int quantity) {
