@@ -1,7 +1,13 @@
 package org.musinsa.domain.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 import org.musinsa.domain.exception.SoldOutException;
 
+@Getter
+@ToString
+@AllArgsConstructor
 public enum Product {
     ITEM_768848(768848, "[STANLEY] GO CERAMIVAC 진공 텀블러/보틀 3종", 21000, 45),
     ITEM_748943(748943, "디오디너리 데일리 세트 (Daily set)", 19000, 89),
@@ -23,38 +29,10 @@ public enum Product {
     ITEM_778422(778422, "캠핑덕 우드롤테이블", 45000, 7),
     ITEM_648418(648418, "BS 02-2A DAYPACK 26 (BLACK)", 238000, 5);
 
-    private int id;
-    private String name;
-    private int price;
+    private final int id;
+    private final String name;
+    private final int price;
     private int stock;
-
-    Product(int id, String name, int price, int stock) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%d %s %d %d", id, name, price, stock);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public int getStock() {
-        return stock;
-    }
 
     /**
      * 재고 감소

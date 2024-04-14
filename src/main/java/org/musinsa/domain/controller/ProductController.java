@@ -1,5 +1,6 @@
 package org.musinsa.domain.controller;
 
+import lombok.AllArgsConstructor;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.NotFoundProductIdException;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 public class ProductController {
     private final ProductService productService;
     private final OrderService orderService;
@@ -21,19 +23,6 @@ public class ProductController {
     private final OrderListView orderListView;
     private final Console console;
     private final List<Order> orders = new ArrayList<>();
-
-    /**
-     * Factory에서 생성 후 주입
-     */
-    public ProductController(ProductService productService, OrderService orderService,
-                             ProductListView productListView, OrderListView orderListView,
-                             Console console) {
-        this.productService = productService;
-        this.orderService = orderService;
-        this.productListView = productListView;
-        this.orderListView = orderListView;
-        this.console = console;
-    }
 
     public void run() {
         while (true) {
@@ -65,7 +54,7 @@ public class ProductController {
         while (true) {
             String productIdInput = console.getInput("상품번호: ");
             if (productIdInput.isEmpty()) {
-                currentOrderList();
+                finalOrderList();
                 orders.clear(); // 주문 목록을 초기화 해주는 로직
                 break;
             }
@@ -121,7 +110,7 @@ public class ProductController {
                 .findFirst();
     }
 
-    private void currentOrderList() {
+    private void finalOrderList() {
         if (!orders.isEmpty()) {
             Integer totalAmount = orderService.totalAmount(orders);
             orderListView.displayOrders(orders, totalAmount);
