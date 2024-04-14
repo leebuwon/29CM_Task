@@ -64,7 +64,7 @@ public class ProductController {
     private boolean exitOrder(String productIdInput, String quantityInput) {
         if (productIdInput.isEmpty() && quantityInput.isEmpty()) {
             finalOrderList();
-            orders.clear(); // 주문 목록을 초기화 해주는 로직
+            orders.clear();
             return true;
         }
         return false;
