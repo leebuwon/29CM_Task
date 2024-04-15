@@ -58,10 +58,14 @@ public class ProductController {
             String quantityInput = inputView.getQuantityInput();
             if (exitOrder(productIdInput, quantityInput)) break;
 
-            int productId = Integer.parseInt(productIdInput);
-            int quantity = Integer.parseInt(quantityInput);
+            try {
+                int productId = Integer.parseInt(productIdInput);
+                int quantity = Integer.parseInt(quantityInput);
 
-            if (processOrder(productId, quantity)) break;
+                if (processOrder(productId, quantity)) break;
+            } catch (NumberFormatException e){
+                System.out.println("숫자를 입력해주세요.");
+            }
         }
     }
 
@@ -113,10 +117,8 @@ public class ProductController {
      * 최종 주문 구매에 대한 List 출력
      */
     private void findOrderList() {
-        if (!orders.isEmpty()) {
-            Integer totalAmount = orderService.totalAmount(orders);
-            int deliveryFee = orderService.deliveryFee(totalAmount);
-            orderListView.displayOrders(orders, totalAmount, deliveryFee);
-        }
+        Integer totalAmount = orderService.totalAmount(orders);
+        int deliveryFee = orderService.deliveryFee(totalAmount);
+        orderListView.displayOrders(orders, totalAmount, deliveryFee);
     }
 }
