@@ -36,7 +36,7 @@ public enum Product {
 
     /**
      * 재고 감소
-     * 재고가 적다면 exception
+     * 재고가 주문 수량보다 적다면 exception
      */
     public void reduceStock(int quantity) {
         if (this.stock >= quantity) {

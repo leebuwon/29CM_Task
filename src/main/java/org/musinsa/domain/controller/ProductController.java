@@ -71,7 +71,7 @@ public class ProductController {
      */
     private boolean exitOrder(String productIdInput, String quantityInput) {
         if (productIdInput.isEmpty() && quantityInput.isEmpty()) {
-            finalOrderList();
+            findOrderList();
             orders.clear();
             return true;
         }
@@ -112,7 +112,7 @@ public class ProductController {
     /**
      * 최종 주문 구매에 대한 List 출력
      */
-    private void finalOrderList() {
+    private void findOrderList() {
         if (!orders.isEmpty()) {
             Integer totalAmount = orderService.totalAmount(orders);
             int deliveryFee = orderService.deliveryFee(totalAmount);
