@@ -101,7 +101,6 @@ public class ProductController {
     }
 
     /**
-     * 주문의 비즈니스 로직
      * 잔고 감소, 여러차례 구매한 목록에 대한 수량 증가
      */
     public synchronized void executeOrder(int productId, int quantity) throws NotFoundProductIdException{
