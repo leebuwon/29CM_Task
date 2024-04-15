@@ -86,27 +86,11 @@ public class ProductController {
 
     public synchronized void executeOrder(int productId, int quantity) throws NotFoundProductIdException{
         Product product = productService.findProductId(productId);
-        Order existingOrder = findExistingOrder(productId)
+        Order existingOrder = orderService.findExistingOrder(orders, productId)
                 .orElse(null);
 
-        updateOrAddOrder(existingOrder, product, quantity);
+        orderService.updateOrAddOrder(orders, existingOrder, product, quantity);
         productService.reduceStock(productId, quantity);
-    }
-
-    private void updateOrAddOrder(Order existingOrder, Product product, int quantity) {
-        if (existingOrder != null){
-            orders.remove(existingOrder);
-            orders.add(existingOrder.addQuantity(quantity));
-            return;
-        }
-
-        orders.add(new Order(product, quantity));
-    }
-
-    private Optional<Order> findExistingOrder(int productId) {
-        return orders.stream()
-                .filter(order -> order.getProduct().getId() == productId)
-                .findFirst();
     }
 
     private void finalOrderList() {
