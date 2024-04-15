@@ -90,6 +90,7 @@ public class ProductController {
             return false;
         } catch (SoldOutException e) {
             System.out.println(e.getMessage());
+            findOrderList();
             orders.clear();
             return true;
         }
@@ -104,8 +105,8 @@ public class ProductController {
         Order existingOrder = orderService.findExistingOrder(orders, productId)
                 .orElse(null);
 
-        orderService.updateOrAddOrder(orders, existingOrder, product, quantity);
         productService.reduceStock(productId, quantity);
+        orderService.updateOrAddOrder(orders, existingOrder, product, quantity);
     }
 
     /**
@@ -116,9 +117,6 @@ public class ProductController {
             Integer totalAmount = orderService.totalAmount(orders);
             int deliveryFee = orderService.deliveryFee(totalAmount);
             orderListView.displayOrders(orders, totalAmount, deliveryFee);
-            return;
         }
-
-        System.out.println("현재 주문 내역이 없습니다.");
     }
 }

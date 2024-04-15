@@ -67,6 +67,7 @@ public class ProductControllerTest {
 
         assertThat(successCount.get()).isEqualTo(50);
         assertThat(failCount.get()).isEqualTo(50);
+        assertThat(product.getStock()).isEqualTo(0);
     }
 
     @Test
