@@ -3,12 +3,10 @@ package org.musinsa.domain.controller;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.SoldOutException;
 import org.musinsa.domain.factory.Factory;
-import org.musinsa.domain.service.ProductService;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -22,9 +20,6 @@ public class ProductControllerTest {
 
     @InjectMocks
     private ProductController productController;
-
-    @Mock
-    private ProductService productService;
 
     @BeforeEach
     void setUp() {
