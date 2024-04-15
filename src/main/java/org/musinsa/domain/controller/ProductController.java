@@ -7,7 +7,7 @@ import org.musinsa.domain.exception.NotFoundProductIdException;
 import org.musinsa.domain.exception.SoldOutException;
 import org.musinsa.domain.service.OrderService;
 import org.musinsa.domain.service.ProductService;
-import org.musinsa.domain.util.Console;
+import org.musinsa.view.InputView;
 import org.musinsa.view.OrderListView;
 import org.musinsa.view.ProductListView;
 
@@ -20,12 +20,12 @@ public class ProductController {
     private final OrderService orderService;
     private final ProductListView productListView;
     private final OrderListView orderListView;
-    private final Console console;
+    private final InputView inputView;
     private final List<Order> orders = new ArrayList<>();
 
     public void run() {
         while (true) {
-            String input = console.getInput("입력(o[order]: 주문, q[quit]: 종료): ");
+            String input = inputView.getInput();
 
             switch (input) {
                 case "o" -> {
@@ -33,11 +33,10 @@ public class ProductController {
                     processOrderInput();
                 }
                 case "q", "quit" -> {
-                    System.out.println("고객님의 주문 감사합니다.");
-                    console.close();
+                    inputView.displayExitMessage();
                     return;
                 }
-                default -> System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+                default -> inputView.displayError();
             }
         }
     }
@@ -55,8 +54,8 @@ public class ProductController {
      */
     private void processOrderInput() {
         while (true) {
-            String productIdInput = console.getInput("상품번호: ");
-            String quantityInput = console.getInput("수량: ");
+            String productIdInput = inputView.getProductIDInput();
+            String quantityInput = inputView.getQuantityInput();
             if (exitOrder(productIdInput, quantityInput)) break;
 
             int productId = Integer.parseInt(productIdInput);
