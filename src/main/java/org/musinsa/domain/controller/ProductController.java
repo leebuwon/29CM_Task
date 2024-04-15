@@ -13,7 +13,6 @@ import org.musinsa.view.ProductListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 public class ProductController {
@@ -43,11 +42,17 @@ public class ProductController {
         }
     }
 
+    /**
+     * 현재 상품의 List 출력
+     */
     public void displayProducts() {
         Product[] products = productService.getSortedProducts();
         productListView.displayProducts(products);
     }
 
+    /**
+     * 상품번호와 수량을 입력
+     */
     private void processOrderInput() {
         while (true) {
             String productIdInput = console.getInput("상품번호: ");
@@ -61,6 +66,9 @@ public class ProductController {
         }
     }
 
+    /**
+     * 상품 주문 나가기
+     */
     private boolean exitOrder(String productIdInput, String quantityInput) {
         if (productIdInput.isEmpty() && quantityInput.isEmpty()) {
             finalOrderList();
@@ -70,6 +78,10 @@ public class ProductController {
         return false;
     }
 
+    /**
+     * executeOrder를 통하여 실제 주문시작
+     * catch를 통해 exception 처리
+     */
     public boolean processOrder(int productId, int quantity) {
         try {
             executeOrder(productId, quantity);
@@ -84,6 +96,10 @@ public class ProductController {
         }
     }
 
+    /**
+     * 주문의 비즈니스 로직
+     * 잔고 감소, 여러차례 구매한 목록에 대한 수량 증가
+     */
     public synchronized void executeOrder(int productId, int quantity) throws NotFoundProductIdException{
         Product product = productService.findProductId(productId);
         Order existingOrder = orderService.findExistingOrder(orders, productId)
@@ -93,6 +109,9 @@ public class ProductController {
         productService.reduceStock(productId, quantity);
     }
 
+    /**
+     * 최종 주문 구매에 대한 List 출력
+     */
     private void finalOrderList() {
         if (!orders.isEmpty()) {
             Integer totalAmount = orderService.totalAmount(orders);
