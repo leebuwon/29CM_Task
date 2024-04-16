@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.SoldOutException;
-import org.musinsa.domain.factory.Factory;
+import org.musinsa.domain.factory.SingletonFactory;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -23,7 +23,7 @@ public class ProductControllerTest {
 
     @BeforeEach
     void setUp() {
-        productController = Factory.createProductController();
+        productController = SingletonFactory.createProductController();
     }
 
     /**
