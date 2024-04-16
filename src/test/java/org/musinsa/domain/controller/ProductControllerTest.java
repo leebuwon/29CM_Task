@@ -7,6 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.musinsa.domain.dto.OrderDto;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
+import org.musinsa.domain.exception.InvalidInputFormatException;
 import org.musinsa.domain.exception.SoldOutException;
 import org.musinsa.global.factory.SingletonFactory;
 
@@ -101,5 +102,21 @@ public class ProductControllerTest {
         assertThatThrownBy(() -> productController.executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders))
                 .isInstanceOf(SoldOutException.class)
                 .hasMessageContaining("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
+    }
+
+    @Test
+    @DisplayName("상품 번호를 잘못 입력하였을 경우 InvalidInputFormatException 발생")
+    void invalidProductIdInputThrowException_success() {
+        assertThatThrownBy(() -> new OrderDto("abcd", "1"))
+                .isInstanceOf(InvalidInputFormatException.class)
+                .hasMessageContaining("상품 번호는 숫자로 입력되어야 합니다.");
+    }
+
+    @Test
+    @DisplayName("수량을 잘못 입력하였을 경우 InvalidInputFormatException 발생")
+    void invalidQuantityInputThrowException_success() {
+        assertThatThrownBy(() -> new OrderDto("213341", "abcd"))
+                .isInstanceOf(InvalidInputFormatException.class)
+                .hasMessageContaining("수량은 숫자로 입력되어야 합니다.");
     }
 }
