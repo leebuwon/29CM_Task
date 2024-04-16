@@ -1,4 +1,4 @@
-package org.musinsa.domain.util;
+package org.musinsa.global.util;
 
 import java.util.Scanner;
 

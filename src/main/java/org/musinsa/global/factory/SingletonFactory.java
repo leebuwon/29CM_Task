@@ -1,9 +1,9 @@
-package org.musinsa.domain.factory;
+package org.musinsa.global.factory;
 
 import org.musinsa.domain.controller.ProductController;
 import org.musinsa.domain.service.OrderService;
 import org.musinsa.domain.service.ProductService;
-import org.musinsa.domain.util.Console;
+import org.musinsa.global.util.Console;
 import org.musinsa.view.InputView;
 import org.musinsa.view.OrderListView;
 import org.musinsa.view.ProductListView;

@@ -7,7 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.SoldOutException;
-import org.musinsa.domain.factory.SingletonFactory;
+import org.musinsa.global.factory.SingletonFactory;
 
 import java.util.ArrayList;
 import java.util.List;

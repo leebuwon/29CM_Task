@@ -1,7 +1,7 @@
 package org.musinsa.view;
 
 import lombok.AllArgsConstructor;
-import org.musinsa.domain.util.Console;
+import org.musinsa.global.util.Console;
 
 @AllArgsConstructor
 public class InputView {
