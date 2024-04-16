@@ -1,6 +1,7 @@
 package org.musinsa.domain.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.musinsa.domain.dto.OrderDto;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.NotFoundProductIdException;
@@ -59,12 +60,10 @@ public class ProductController {
             if (exitOrder(productIdInput, quantityInput, orders)) break;
 
             try {
-                int productId = Integer.parseInt(productIdInput);
-                int quantity = Integer.parseInt(quantityInput);
-
-                if (processOrder(productId, quantity, orders)) break;
+                OrderDto orderDto = new OrderDto(productIdInput, quantityInput);
+                if (processOrder(orderDto.getProductId(), orderDto.getQuantity(), orders)) break;
             } catch (NumberFormatException e){
-                System.out.println("숫자를 입력해주세요.");
+                System.out.println(e.getMessage());
             }
         }
     }
