@@ -75,7 +75,6 @@ public class ProductController {
     private boolean exitOrder(String productIdInput, String quantityInput, List<Order> orders) {
         if (productIdInput.isEmpty() && quantityInput.isEmpty()) {
             findOrderList(orders);
-            orders.clear();
             return true;
         }
         return false;
@@ -95,7 +94,6 @@ public class ProductController {
         } catch (SoldOutException e) {
             System.out.println(e.getMessage());
             findOrderList(orders);
-            orders.clear();
             return true;
         }
     }
@@ -119,5 +117,6 @@ public class ProductController {
         Integer totalAmount = orderService.totalAmount(orders);
         int deliveryFee = orderService.deliveryFee(totalAmount);
         orderListView.displayOrders(orders, totalAmount, deliveryFee);
+        orders.clear();
     }
 }
