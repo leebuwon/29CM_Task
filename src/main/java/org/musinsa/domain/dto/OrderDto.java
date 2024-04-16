@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import org.musinsa.domain.exception.InvalidInputFormatException;
 
+import java.util.Optional;
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -12,12 +14,18 @@ public class OrderDto {
     private int productId;
     private int quantity;
 
-    public OrderDto(String productIdInput, String quantityInput) throws NumberFormatException {
+    public OrderDto(String productIdInput, String quantityInput) {
+        this.productId = parseInput(productIdInput)
+                .orElseThrow(() -> new InvalidInputFormatException("상품 번호는 숫자로 입력되어야 합니다."));
+        this.quantity = parseInput(quantityInput)
+                .orElseThrow(() -> new InvalidInputFormatException("수량은 숫자로 입력되어야 합니다."));
+    }
+
+    private static Optional<Integer> parseInput(String input) {
         try {
-            this.productId = Integer.parseInt(productIdInput);
-            this.quantity = Integer.parseInt(quantityInput);
+            return Optional.of(Integer.parseInt(input));
         } catch (NumberFormatException e) {
-            throw new InvalidInputFormatException("유효하지 않은 입력: 상품번호와 수량이 숫자인지 확인하세요.");
+            return Optional.empty();
         }
     }
 }
