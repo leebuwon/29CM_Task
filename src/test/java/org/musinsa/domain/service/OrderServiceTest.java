@@ -18,6 +18,7 @@ class OrderServiceTest {
 
     @InjectMocks
     private OrderService orderService;
+    private final List<Order> orders = new ArrayList<>();
 
     @Test
     @DisplayName("5만원 미만 일 경우 배송비가 2500원이 붙는다.")
@@ -30,7 +31,6 @@ class OrderServiceTest {
     @DisplayName("같은 품목을 2번 주문하면 quantity를 더해서 보여준다.")
     void addDuplicateOrderQuantity_success() {
         Product product = Product.ITEM_502480;
-        List<Order> orders = new ArrayList<>();
         Order existingOrder;
 
         existingOrder = orderService.findExistingOrder(orders, product.getId())
@@ -49,8 +49,6 @@ class OrderServiceTest {
     @DisplayName("버드와이저 상품을 10개 구매하면 35만원이 나온다.")
     void calculateTotalAmount_success() {
         Product product = Product.ITEM_779989;
-
-        List<Order> orders = new ArrayList<>();
         Order existingOrder;
 
         existingOrder = orderService.findExistingOrder(orders, product.getId())

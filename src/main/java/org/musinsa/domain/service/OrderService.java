@@ -3,6 +3,7 @@ package org.musinsa.domain.service;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,11 @@ public class OrderService {
 
     private static final int DELIVERY_FEE = 2500;
     private static final int FREE_DELIVERY_FEE = 50000;
+    private final List<Order> orders = new ArrayList<>();
+
+    public List<Order> findOrders() {
+        return orders;
+    }
 
     public Optional<Order> findExistingOrder(List<Order> orders, int productId) {
         return orders.stream()

@@ -4,10 +4,13 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.SoldOutException;
 import org.musinsa.domain.factory.SingletonFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,6 +23,7 @@ public class ProductControllerTest {
 
     @InjectMocks
     private ProductController productController;
+    private final List<Order> orders = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
@@ -47,7 +51,7 @@ public class ProductControllerTest {
         for (int i = 0; i < numThreads; i++){
             executorService.execute(() -> {
                 try {
-                    productController.executeOrder(product.getId(), 1);
+                    productController.executeOrder(product.getId(), 1, orders);
                     successCount.getAndIncrement();
                 } catch (SoldOutException e) { // SoldOutException 발생할 경우 failCount 증가
                     failCount.getAndIncrement();
@@ -69,7 +73,7 @@ public class ProductControllerTest {
     @DisplayName("수량이 70개의 상품에서 10개를 구매하면 60개가 된다.")
     void reduceStock_success() {
         Product product = Product.ITEM_760709;
-        productController.processOrder(product.getId(), 10);
+        productController.processOrder(product.getId(), 10, orders);
 
         assertThat(product.getStock()).isEqualTo(60);
     }
@@ -79,7 +83,7 @@ public class ProductControllerTest {
     void OrderExceedsStockThrowsSoldOut_success() {
         Product product = Product.ITEM_768848;
 
-        assertThatThrownBy(() -> productController.executeOrder(product.getId(), 50))
+        assertThatThrownBy(() -> productController.executeOrder(product.getId(), 50, orders))
                 .isInstanceOf(SoldOutException.class)
                 .hasMessageContaining("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
     }
