@@ -29,8 +29,7 @@ public class ProductController {
 
             switch (input) {
                 case "o" -> {
-                    displayProducts();
-                    processOrderInput();
+                    displayAndOrder();
                 }
                 case "q", "quit" -> {
                     inputView.displayExitMessage();
@@ -39,6 +38,11 @@ public class ProductController {
                 default -> inputView.displayError();
             }
         }
+    }
+
+    private void displayAndOrder() {
+        displayProducts();
+        processOrderInput();
     }
 
     /**
