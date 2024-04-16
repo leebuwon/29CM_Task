@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.musinsa.domain.dto.OrderDto;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
+import org.musinsa.domain.exception.InvalidInputFormatException;
 import org.musinsa.domain.exception.NotFoundProductIdException;
 import org.musinsa.domain.exception.SoldOutException;
 import org.musinsa.domain.service.OrderService;
@@ -62,7 +63,7 @@ public class ProductController {
             try {
                 OrderDto orderDto = new OrderDto(productIdInput, quantityInput);
                 if (processOrder(orderDto.getProductId(), orderDto.getQuantity(), orders)) break;
-            } catch (NumberFormatException e){
+            } catch (InvalidInputFormatException e){
                 System.out.println(e.getMessage());
             }
         }
