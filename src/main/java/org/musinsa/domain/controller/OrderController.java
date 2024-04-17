@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.musinsa.domain.dto.OrderDto;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
-import org.musinsa.domain.exception.InvalidInputFormatException;
 import org.musinsa.domain.exception.NotFoundProductIdException;
 import org.musinsa.domain.exception.SoldOutException;
 import org.musinsa.domain.service.OrderService;
 import org.musinsa.domain.service.ProductService;
-import org.musinsa.view.InputView;
 import org.musinsa.view.OrderListView;
 import org.musinsa.view.ProductListView;
 
@@ -21,28 +19,9 @@ public class OrderController {
     private final OrderService orderService;
     private final ProductListView productListView;
     private final OrderListView orderListView;
-    private final InputView inputView;
 
-    public void run() {
-        while (true) {
-            String input = inputView.getInput();
-
-            switch (input) {
-                case "o" -> {
-                    displayAndOrder();
-                }
-                case "q", "quit" -> {
-                    inputView.displayExitMessage();
-                    return;
-                }
-                default -> inputView.displayError();
-            }
-        }
-    }
-
-    private void displayAndOrder() {
+    public void displayProduct() {
         displayProducts();
-        processOrderInput();
     }
 
     /**
@@ -54,52 +33,27 @@ public class OrderController {
     }
 
     /**
-     * 상품번호와 수량을 입력
+     * 주문 진행 과정
      */
-    private void processOrderInput() {
-        while (true) {
-            String productIdInput = inputView.getProductIDInput();
-            String quantityInput = inputView.getQuantityInput();
-
-            List<Order> orders = orderService.findOrders();
-            if (exitOrder(productIdInput, quantityInput, orders)) break;
-
-            try {
-                OrderDto orderDto = new OrderDto(productIdInput, quantityInput);
-                if (processOrder(orderDto.getProductId(), orderDto.getQuantity(), orders)) break;
-            } catch (InvalidInputFormatException e){
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * 상품 주문 나가기
-     */
-    private boolean exitOrder(String productIdInput, String quantityInput, List<Order> orders) {
-        if (productIdInput.isEmpty() && quantityInput.isEmpty()) {
+    public boolean processOrder(String productId, String quantityId) {
+        List<Order> orders = orderService.findOrders();
+        if (productId.isEmpty() && quantityId.isEmpty()) {
             findOrderList(orders);
             return true;
         }
-        return false;
-    }
 
-    /**
-     * executeOrder를 통하여 실제 주문시작
-     * catch를 통해 exception 처리
-     */
-    public boolean processOrder(int productId, int quantity, List<Order> orders) {
         try {
-            executeOrder(productId, quantity, orders);
-            return false;
-        } catch (NotFoundProductIdException e) {
-            System.out.println(e.getMessage());
-            return false;
-        } catch (SoldOutException e) {
+            OrderDto orderDto = new OrderDto(productId, quantityId);
+            executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
+        }  catch (SoldOutException e) {
             System.out.println(e.getMessage());
             findOrderList(orders);
             return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+
+        return false;
     }
 
     /**

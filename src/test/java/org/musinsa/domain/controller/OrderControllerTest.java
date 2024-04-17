@@ -85,7 +85,7 @@ public class OrderControllerTest {
                 .quantity(10)
                 .build();
 
-        orderController.processOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
+        orderController.executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
 
         assertThat(product.getStock()).isEqualTo(60);
     }

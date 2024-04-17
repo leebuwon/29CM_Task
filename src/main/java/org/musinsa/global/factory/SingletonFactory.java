@@ -72,6 +72,6 @@ public class SingletonFactory {
 
 
     public static OrderController createOrderController() {
-        return new OrderController(getProductService(), getOrderService(), getProductListView(), getOrderListView(), getInputView());
+        return new OrderController(getProductService(), getOrderService(), getProductListView(), getOrderListView());
     }
 }
