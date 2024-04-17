@@ -109,7 +109,7 @@ public class OrderControllerTest {
     void invalidProductIdInputThrowException_success() {
         assertThatThrownBy(() -> new OrderDto("abcd", "1"))
                 .isInstanceOf(InvalidInputFormatException.class)
-                .hasMessageContaining("상품 번호는 숫자로 입력되어야 합니다.");
+                .hasMessageContaining("InvalidInputFormatException 발생, 상품 번호는 숫자로 입력되어야 합니다.");
     }
 
     @Test
@@ -117,6 +117,6 @@ public class OrderControllerTest {
     void invalidQuantityInputThrowException_success() {
         assertThatThrownBy(() -> new OrderDto("213341", "abcd"))
                 .isInstanceOf(InvalidInputFormatException.class)
-                .hasMessageContaining("수량은 숫자로 입력되어야 합니다.");
+                .hasMessageContaining("InvalidInputFormatException 발생, 수량은 숫자로 입력되어야 합니다.");
     }
 }

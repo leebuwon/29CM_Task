@@ -16,9 +16,9 @@ public class OrderDto {
 
     public OrderDto(String productIdInput, String quantityInput) {
         this.productId = parseInput(productIdInput)
-                .orElseThrow(() -> new InvalidInputFormatException("상품 번호는 숫자로 입력되어야 합니다."));
+                .orElseThrow(() -> new InvalidInputFormatException("InvalidInputFormatException 발생, 상품 번호는 숫자로 입력되어야 합니다."));
         this.quantity = parseInput(quantityInput)
-                .orElseThrow(() -> new InvalidInputFormatException("수량은 숫자로 입력되어야 합니다."));
+                .orElseThrow(() -> new InvalidInputFormatException("InvalidInputFormatException 발생, 수량은 숫자로 입력되어야 합니다."));
     }
 
     private static Optional<Integer> parseInput(String input) {

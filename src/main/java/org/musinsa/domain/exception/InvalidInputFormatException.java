@@ -1,6 +1,8 @@
 package org.musinsa.domain.exception;
 
-public class InvalidInputFormatException extends RuntimeException{
+import org.musinsa.global.exception.OrderInputException;
+
+public class InvalidInputFormatException extends OrderInputException {
     public InvalidInputFormatException(String message) {
         super(message);
     }

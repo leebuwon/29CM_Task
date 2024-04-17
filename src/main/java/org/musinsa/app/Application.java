@@ -3,9 +3,8 @@ package org.musinsa.app;
 import org.musinsa.domain.controller.OrderController;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
-import org.musinsa.domain.exception.InvalidInputFormatException;
-import org.musinsa.domain.exception.NotFoundProductIdException;
 import org.musinsa.domain.exception.SoldOutException;
+import org.musinsa.global.exception.OrderInputException;
 import org.musinsa.global.factory.SingletonFactory;
 import org.musinsa.view.InputView;
 import org.musinsa.view.ProductListView;
@@ -45,9 +44,9 @@ public class Application {
             List<Order> orders = orderController.findOrders();
             try {
                 if (orderController.processOrder(productIdInput, quantityInput, orders)) break;
-            } catch (NotFoundProductIdException e) {
+            } catch (OrderInputException e) {
                 System.out.println(e.getMessage());
-            } catch (Exception e){
+            } catch (SoldOutException e){
                 System.out.println(e.getMessage());
                 orderController.findOrderList(orders);
                 break;
