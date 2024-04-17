@@ -1,11 +1,14 @@
 package org.musinsa.app;
 
 import org.musinsa.domain.controller.OrderController;
+import org.musinsa.domain.entity.Product;
 import org.musinsa.global.factory.SingletonFactory;
 import org.musinsa.view.InputView;
+import org.musinsa.view.ProductListView;
 
 public class Application {
     InputView inputView = SingletonFactory.getInputView();
+    ProductListView productListView = SingletonFactory.getProductListView();
     OrderController orderController = SingletonFactory.createOrderController();
 
     public void run() {
@@ -14,7 +17,8 @@ public class Application {
 
             switch (input) {
                 case "o" -> {
-                    orderController.displayProduct();
+                    Product[] products = orderController.displayProducts();
+                    productListView.displayProducts(products);
                     orderInput();
                 }
                 case "q", "quit" -> {

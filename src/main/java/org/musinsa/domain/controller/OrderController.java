@@ -17,19 +17,13 @@ import java.util.List;
 public class OrderController {
     private final ProductService productService;
     private final OrderService orderService;
-    private final ProductListView productListView;
     private final OrderListView orderListView;
-
-    public void displayProduct() {
-        displayProducts();
-    }
 
     /**
      * 현재 상품의 List 출력
      */
-    public void displayProducts() {
-        Product[] products = productService.getSortedProducts();
-        productListView.displayProducts(products);
+    public Product[] displayProducts() {
+        return productService.getSortedProducts();
     }
 
     /**
