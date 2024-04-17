@@ -1,5 +1,6 @@
 package org.musinsa.domain.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -7,8 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
+import org.musinsa.domain.repository.impl.OrderRepositoryImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +19,14 @@ class OrderServiceTest {
 
     @InjectMocks
     private OrderService orderService;
-    private final List<Order> orders = new ArrayList<>();
+    List<Order> orders;
+
+    @BeforeEach
+    void setUp() {
+        OrderRepositoryImpl orderRepositoryImpl = new OrderRepositoryImpl();
+        orderService = new OrderService(orderRepositoryImpl);
+        orders = orderService.findOrders();
+    }
 
     @Test
     @DisplayName("5만원 미만 일 경우 배송비가 2500원이 붙는다.")

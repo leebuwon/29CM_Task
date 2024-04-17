@@ -1,36 +1,36 @@
 package org.musinsa.domain.service;
 
+import lombok.RequiredArgsConstructor;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
+import org.musinsa.domain.repository.OrderRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 public class OrderService {
 
     private static final int DELIVERY_FEE = 2500;
     private static final int FREE_DELIVERY_FEE = 50000;
-    private final List<Order> orders = new ArrayList<>();
+    private final OrderRepository orderRepository;
 
     public List<Order> findOrders() {
-        return orders;
+        return orderRepository.findAll();
     }
 
     public Optional<Order> findExistingOrder(List<Order> orders, int productId) {
-        return orders.stream()
-                .filter(order -> order.getProduct().getId() == productId)
-                .findFirst();
+        return orderRepository.existsByOrder(orders, productId);
     }
 
     public void updateOrAddOrder(List<Order> orders, Order existingOrder, Product product, int quantity) {
         if (existingOrder != null){
-            orders.remove(existingOrder);
+            orderRepository.removeOrder(existingOrder);
             orders.add(existingOrder.addQuantity(quantity));
             return;
         }
 
-        orders.add(new Order(product, quantity));
+        orderRepository.addOrder(new Order(product, quantity));
     }
 
     public Integer totalAmount(List<Order> orders) {
