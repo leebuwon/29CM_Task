@@ -5,11 +5,9 @@ import org.musinsa.domain.dto.OrderDto;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.NotFoundProductIdException;
-import org.musinsa.domain.exception.SoldOutException;
 import org.musinsa.domain.service.OrderService;
 import org.musinsa.domain.service.ProductService;
 import org.musinsa.view.OrderListView;
-import org.musinsa.view.ProductListView;
 
 import java.util.List;
 
@@ -26,27 +24,21 @@ public class OrderController {
         return productService.getSortedProducts();
     }
 
+    public List<Order> findOrders() {
+        return orderService.findOrders();
+    }
+
     /**
      * 주문 진행 과정
      */
-    public boolean processOrder(String productId, String quantityId) {
-        List<Order> orders = orderService.findOrders();
+    public boolean processOrder(String productId, String quantityId, List<Order> orders) {
         if (productId.isEmpty() && quantityId.isEmpty()) {
             findOrderList(orders);
             return true;
         }
 
-        try {
-            OrderDto orderDto = new OrderDto(productId, quantityId);
-            executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
-        }  catch (SoldOutException e) {
-            System.out.println(e.getMessage());
-            findOrderList(orders);
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
+        OrderDto orderDto = new OrderDto(productId, quantityId);
+        executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
         return false;
     }
 
@@ -65,7 +57,7 @@ public class OrderController {
     /**
      * 최종 주문 구매에 대한 List 출력
      */
-    private void findOrderList(List<Order> orders) {
+    public void findOrderList(List<Order> orders) {
         Integer totalAmount = orderService.totalAmount(orders);
         int deliveryFee = orderService.deliveryFee(totalAmount);
         orderListView.displayOrders(orders, totalAmount, deliveryFee);
