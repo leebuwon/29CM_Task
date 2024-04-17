@@ -16,7 +16,7 @@ import org.musinsa.view.ProductListView;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class ProductController {
+public class OrderController {
     private final ProductService productService;
     private final OrderService orderService;
     private final ProductListView productListView;

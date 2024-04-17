@@ -21,15 +21,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductControllerTest {
+public class OrderControllerTest {
 
     @InjectMocks
-    private ProductController productController;
+    private OrderController orderController;
     private final List<Order> orders = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
-        productController = SingletonFactory.createProductController();
+        orderController = SingletonFactory.createOrderController();
     }
 
     /**
@@ -58,7 +58,7 @@ public class ProductControllerTest {
         for (int i = 0; i < numThreads; i++){
             executorService.execute(() -> {
                 try {
-                    productController.executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
+                    orderController.executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
                     successCount.getAndIncrement();
                 } catch (SoldOutException e) { // SoldOutException 발생할 경우 failCount 증가
                     failCount.getAndIncrement();
@@ -85,7 +85,7 @@ public class ProductControllerTest {
                 .quantity(10)
                 .build();
 
-        productController.processOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
+        orderController.processOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
 
         assertThat(product.getStock()).isEqualTo(60);
     }
@@ -99,7 +99,7 @@ public class ProductControllerTest {
                 .quantity(50)
                 .build();
 
-        assertThatThrownBy(() -> productController.executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders))
+        assertThatThrownBy(() -> orderController.executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders))
                 .isInstanceOf(SoldOutException.class)
                 .hasMessageContaining("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
     }

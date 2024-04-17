@@ -1,6 +1,6 @@
 package org.musinsa.global.factory;
 
-import org.musinsa.domain.controller.ProductController;
+import org.musinsa.domain.controller.OrderController;
 import org.musinsa.domain.repository.OrderRepository;
 import org.musinsa.domain.repository.impl.OrderRepositoryImpl;
 import org.musinsa.domain.service.OrderService;
@@ -71,7 +71,7 @@ public class SingletonFactory {
     }
 
 
-    public static ProductController createProductController() {
-        return new ProductController(getProductService(), getOrderService(), getProductListView(), getOrderListView(), getInputView());
+    public static OrderController createOrderController() {
+        return new OrderController(getProductService(), getOrderService(), getProductListView(), getOrderListView(), getInputView());
     }
 }
