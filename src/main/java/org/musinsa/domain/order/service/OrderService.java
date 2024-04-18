@@ -25,8 +25,8 @@ public class OrderService {
         return orderRepository.existsByOrder(orders, productId);
     }
 
-    public void reduceStock(int productId, int quantity) {
-        productService.reduceStock(productId, quantity);
+    public void reduceStock(Product product, int quantity) {
+        productService.reduceStock(product, quantity);
     }
 
     public void updateOrAddOrder(List<Order> orders, Order existingOrder, Product product, int quantity) {

@@ -14,8 +14,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void reduceStock(int productId, int quantity) {
-        Product product = findProductId(productId);
+    public void reduceStock(Product product, int quantity) {
         product.reduceStock(quantity);
     }
 

@@ -44,7 +44,7 @@ public class OrderController {
         Order existingOrder = orderService.findExistingOrder(orders, product.getId())
                 .orElse(null);
 
-        orderService.reduceStock(product.getId(), dto.getQuantity());
+        orderService.reduceStock(product, dto.getQuantity());
         orderService.updateOrAddOrder(orders, existingOrder, product, dto.getQuantity());
     }
 
