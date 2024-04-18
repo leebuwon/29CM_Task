@@ -4,6 +4,7 @@ import org.musinsa.domain.order.controller.OrderController;
 import org.musinsa.domain.order.repository.OrderRepository;
 import org.musinsa.domain.order.repository.impl.OrderRepositoryImpl;
 import org.musinsa.domain.order.service.OrderService;
+import org.musinsa.domain.product.controller.ProductController;
 import org.musinsa.domain.product.service.ProductService;
 import org.musinsa.global.util.Console;
 import org.musinsa.app.view.InputView;
@@ -19,7 +20,7 @@ public class SingletonFactory {
     }
 
     private static final class OrderServiceHolder {
-        private static final OrderService orderService = new OrderService(getOrderRepository());
+        private static final OrderService orderService = new OrderService(getProductService(), getOrderRepository());
     }
 
     private static final class OrderRepositoryHolder {
@@ -72,6 +73,11 @@ public class SingletonFactory {
 
 
     public static OrderController createOrderController() {
-        return new OrderController(getProductService(), getOrderService());
+        return new OrderController(getOrderService());
     }
+
+    public static ProductController createProductController() {
+        return new ProductController(getProductService());
+    }
+
 }

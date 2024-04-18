@@ -5,7 +5,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.musinsa.domain.order.controller.OrderController;
-import org.musinsa.domain.order.dto.request.OrderDto;
+import org.musinsa.domain.order.dto.request.OrderProductIdDto;
+import org.musinsa.domain.order.dto.request.OrderQuantityDto;
 import org.musinsa.domain.order.entity.Order;
 import org.musinsa.domain.product.entity.Product;
 import org.musinsa.domain.order.exception.InvalidInputFormatException;
@@ -41,11 +42,10 @@ public class OrderControllerTest {
      */
     @Test
     @DisplayName("멀티 스레드환경에서 주문 수량을 초과하면 SoldOutException 발생한다.")
-    void multiThreadedOrderExceedsStockThrowsSoldOut_success() throws InterruptedException {
-        Product product = Product.ITEM_782858;
+    void multiThreadedOrderExceedsStockThrowsSoldOut_success() throws InterruptedException {;
+        Product product = orderController.findProduct("782858");
 
-        OrderDto orderDto = OrderDto.builder()
-                .productId(product.getId())
+        OrderQuantityDto orderQuantityDto = OrderQuantityDto.builder()
                 .quantity(1)
                 .build();
 
@@ -59,7 +59,7 @@ public class OrderControllerTest {
         for (int i = 0; i < numThreads; i++){
             executorService.execute(() -> {
                 try {
-                    orderController.executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
+                    orderController.executeOrder(product, orderQuantityDto.getQuantity(), orders);
                     successCount.getAndIncrement();
                 } catch (SoldOutException e) { // SoldOutException 발생할 경우 failCount 증가
                     failCount.getAndIncrement();
@@ -80,13 +80,12 @@ public class OrderControllerTest {
     @Test
     @DisplayName("수량이 70개의 상품에서 10개를 구매하면 60개가 된다.")
     void reduceStock_success() {
-        Product product = Product.ITEM_760709;
-        OrderDto orderDto = OrderDto.builder()
-                .productId(product.getId())
+        Product product = orderController.findProduct("760709");
+        OrderQuantityDto orderQuantityDto = OrderQuantityDto.builder()
                 .quantity(10)
                 .build();
 
-        orderController.executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
+        orderController.executeOrder(product, orderQuantityDto.getQuantity(), orders);
 
         assertThat(product.getStock()).isEqualTo(60);
     }
@@ -94,13 +93,12 @@ public class OrderControllerTest {
     @Test
     @DisplayName("재고보다 많은 수량을 구매하면 SoldOutException 발생한다.")
     void OrderExceedsStockThrowsSoldOut_success() {
-        Product product = Product.ITEM_768848;
-        OrderDto orderDto = OrderDto.builder()
-                .productId(product.getId())
+        Product product = orderController.findProduct("768848");
+        OrderQuantityDto orderQuantityDto = OrderQuantityDto.builder()
                 .quantity(50)
                 .build();
 
-        assertThatThrownBy(() -> orderController.executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders))
+        assertThatThrownBy(() -> orderController.executeOrder(product, orderQuantityDto.getQuantity(), orders))
                 .isInstanceOf(SoldOutException.class)
                 .hasMessageContaining("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
     }
@@ -108,15 +106,15 @@ public class OrderControllerTest {
     @Test
     @DisplayName("상품 번호를 잘못 입력하였을 경우 InvalidInputFormatException 발생")
     void invalidProductIdInputThrowException_success() {
-        assertThatThrownBy(() -> new OrderDto("abcd", "1"))
+        assertThatThrownBy(() -> new OrderProductIdDto("abcde"))
                 .isInstanceOf(InvalidInputFormatException.class)
-                .hasMessageContaining("InvalidInputFormatException 발생, 상품 번호는 숫자로 입력되어야 합니다.");
+                .hasMessageContaining("InvalidInputFormatException 발생, 상품번호는 숫자로 입력되어야 합니다.");
     }
 
     @Test
     @DisplayName("수량을 잘못 입력하였을 경우 InvalidInputFormatException 발생")
     void invalidQuantityInputThrowException_success() {
-        assertThatThrownBy(() -> new OrderDto("213341", "abcd"))
+        assertThatThrownBy(() -> new OrderQuantityDto("abcd"))
                 .isInstanceOf(InvalidInputFormatException.class)
                 .hasMessageContaining("InvalidInputFormatException 발생, 수량은 숫자로 입력되어야 합니다.");
     }

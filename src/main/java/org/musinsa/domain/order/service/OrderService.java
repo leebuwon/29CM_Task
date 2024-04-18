@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.musinsa.domain.order.entity.Order;
 import org.musinsa.domain.product.entity.Product;
 import org.musinsa.domain.order.repository.OrderRepository;
+import org.musinsa.domain.product.service.ProductService;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ public class OrderService {
 
     private static final int DELIVERY_FEE = 2500;
     private static final int FREE_DELIVERY_FEE = 50000;
+    private final ProductService productService;
     private final OrderRepository orderRepository;
 
     public List<Order> findOrders() {
@@ -21,6 +23,10 @@ public class OrderService {
 
     public Optional<Order> findExistingOrder(List<Order> orders, int productId) {
         return orderRepository.existsByOrder(orders, productId);
+    }
+
+    public void reduceStock(int productId, int quantity) {
+        productService.reduceStock(productId, quantity);
     }
 
     public void updateOrAddOrder(List<Order> orders, Order existingOrder, Product product, int quantity) {
@@ -41,5 +47,9 @@ public class OrderService {
 
     public Integer deliveryFee(Integer totalAmount) {
         return totalAmount < FREE_DELIVERY_FEE ? DELIVERY_FEE : 0;
+    }
+
+    public Product findByProduct(int productId) {
+        return productService.findProductId(productId);
     }
 }

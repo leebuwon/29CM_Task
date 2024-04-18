@@ -2,11 +2,13 @@ package org.musinsa.app.view;
 
 import org.musinsa.domain.product.entity.Product;
 
+import java.util.List;
+
 public class ProductListView {
     private static final String HEADER_FORMAT = "%-8s %-28s %-7s %s%n";
     private static final String PRODUCT_FORMAT = "%-10d %-30s %-12d %d%n";
 
-    public void displayProducts(Product[] products) {
+    public void displayProducts(List<Product> products) {
         displayHeader();
         for (Product product : products) {
             displayProductDetails(product);

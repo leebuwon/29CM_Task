@@ -10,13 +10,10 @@ import java.util.Optional;
 @Getter
 @Builder
 @AllArgsConstructor
-public class OrderDto {
-    private int productId;
+public class OrderQuantityDto {
     private int quantity;
 
-    public OrderDto(String productIdInput, String quantityInput) {
-        this.productId = parseInput(productIdInput)
-                .orElseThrow(() -> new InvalidInputFormatException("InvalidInputFormatException 발생, 상품 번호는 숫자로 입력되어야 합니다."));
+    public OrderQuantityDto(String quantityInput) {
         this.quantity = parseInput(quantityInput)
                 .orElseThrow(() -> new InvalidInputFormatException("InvalidInputFormatException 발생, 수량은 숫자로 입력되어야 합니다."));
     }

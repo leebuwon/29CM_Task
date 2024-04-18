@@ -6,6 +6,7 @@ import org.musinsa.app.view.ProductListView;
 import org.musinsa.domain.order.controller.OrderController;
 import org.musinsa.domain.order.dto.response.FindOrderListDto;
 import org.musinsa.domain.order.entity.Order;
+import org.musinsa.domain.product.controller.ProductController;
 import org.musinsa.domain.product.entity.Product;
 import org.musinsa.global.exception.GlobalException;
 import org.musinsa.global.exception.OrderInputException;
@@ -18,6 +19,7 @@ public class Application {
     ProductListView productListView = SingletonFactory.getProductListView();
     OrderListView orderListView = SingletonFactory.getOrderListView();
     OrderController orderController = SingletonFactory.createOrderController();
+    ProductController productController = SingletonFactory.createProductController();
 
     public void run() {
         while (true) {
@@ -25,7 +27,7 @@ public class Application {
 
             switch (input) {
                 case "o" -> {
-                    Product[] products = orderController.displayProducts();
+                    List<Product> products = productController.displayProducts();
                     productListView.displayProducts(products);
                     orderInput();
                 }
@@ -50,7 +52,8 @@ public class Application {
             }
 
             try {
-                orderController.processOrder(productIdInput, quantityInput, orders);
+                Product product = orderController.findProduct(productIdInput);
+                orderController.processOrder(product, quantityInput, orders);
             } catch (OrderInputException e) {
                 System.out.println(e.getMessage());
             } catch (GlobalException e){

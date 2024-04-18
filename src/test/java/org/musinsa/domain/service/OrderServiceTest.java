@@ -10,6 +10,7 @@ import org.musinsa.domain.order.entity.Order;
 import org.musinsa.domain.order.service.OrderService;
 import org.musinsa.domain.product.entity.Product;
 import org.musinsa.domain.order.repository.impl.OrderRepositoryImpl;
+import org.musinsa.domain.product.service.ProductService;
 
 import java.util.List;
 
@@ -25,21 +26,22 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         OrderRepositoryImpl orderRepositoryImpl = new OrderRepositoryImpl();
-        orderService = new OrderService(orderRepositoryImpl);
+        ProductService productService = new ProductService();
+        orderService = new OrderService(productService, orderRepositoryImpl);
         orders = orderService.findOrders();
     }
 
     @Test
     @DisplayName("5만원 미만 일 경우 배송비가 2500원이 붙는다.")
     void addsDeliveryFeeIfOrderUnder50000_success() {
-        Product product = Product.ITEM_768848;
+        Product product = orderService.findByProduct(768848);
         assertThat(orderService.deliveryFee(product.getPrice())).isEqualTo(2500);
     }
 
     @Test
     @DisplayName("같은 품목을 2번 주문하면 quantity를 더해서 보여준다.")
     void addDuplicateOrderQuantity_success() {
-        Product product = Product.ITEM_502480;
+        Product product = orderService.findByProduct(502480);
         Order existingOrder;
 
         existingOrder = orderService.findExistingOrder(orders, product.getId())
@@ -57,7 +59,8 @@ class OrderServiceTest {
     @Test
     @DisplayName("버드와이저 상품을 10개 구매하면 35만원이 나온다.")
     void calculateTotalAmount_success() {
-        Product product = Product.ITEM_779989;
+        Product product = orderService.findByProduct(779989);
+
         Order existingOrder;
 
         existingOrder = orderService.findExistingOrder(orders, product.getId())
