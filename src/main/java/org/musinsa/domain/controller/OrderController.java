@@ -24,22 +24,30 @@ public class OrderController {
         return productService.getSortedProducts();
     }
 
+    /**
+     * 주문 조회
+     */
     public List<Order> findOrders() {
         return orderService.findOrders();
     }
 
     /**
-     * 주문 진행 과정
+     * 주문 종료
      */
-    public boolean processOrder(String productId, String quantityId, List<Order> orders) {
+    public boolean exitOrder(String productId, String quantityId, List<Order> orders) {
         if (productId.isEmpty() && quantityId.isEmpty()) {
             findOrderList(orders);
             return true;
         }
+        return false;
+    }
 
+    /**
+     * 주문 진행 과정
+     */
+    public void processOrder(String productId, String quantityId, List<Order> orders) {
         OrderDto orderDto = new OrderDto(productId, quantityId);
         executeOrder(orderDto.getProductId(), orderDto.getQuantity(), orders);
-        return false;
     }
 
     /**

@@ -3,7 +3,6 @@ package org.musinsa.app;
 import org.musinsa.domain.controller.OrderController;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
-import org.musinsa.domain.exception.SoldOutException;
 import org.musinsa.global.exception.GlobalException;
 import org.musinsa.global.exception.OrderInputException;
 import org.musinsa.global.factory.SingletonFactory;
@@ -36,15 +35,18 @@ public class Application {
         }
     }
 
-
     public void orderInput() {
         while (true){
             String productIdInput = inputView.getProductIDInput();
             String quantityInput = inputView.getQuantityInput();
-
             List<Order> orders = orderController.findOrders();
+
+            if (orderController.exitOrder(productIdInput, quantityInput, orders)){
+                break;
+            }
+
             try {
-                if (orderController.processOrder(productIdInput, quantityInput, orders)) break;
+                orderController.processOrder(productIdInput, quantityInput, orders);
             } catch (OrderInputException e) {
                 System.out.println(e.getMessage());
             } catch (GlobalException e){
