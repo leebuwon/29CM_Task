@@ -1,12 +1,14 @@
 package org.musinsa.app;
 
 import org.musinsa.domain.controller.OrderController;
+import org.musinsa.domain.dto.response.FindOrderListDto;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.global.exception.GlobalException;
 import org.musinsa.global.exception.OrderInputException;
 import org.musinsa.global.factory.SingletonFactory;
 import org.musinsa.view.InputView;
+import org.musinsa.view.OrderListView;
 import org.musinsa.view.ProductListView;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 public class Application {
     InputView inputView = SingletonFactory.getInputView();
     ProductListView productListView = SingletonFactory.getProductListView();
+    OrderListView orderListView = SingletonFactory.getOrderListView();
     OrderController orderController = SingletonFactory.createOrderController();
 
     public void run() {
@@ -41,7 +44,8 @@ public class Application {
             String quantityInput = inputView.getQuantityInput();
             List<Order> orders = orderController.findOrders();
 
-            if (orderController.exitOrder(productIdInput, quantityInput, orders)){
+            if (orderController.exitOrder(productIdInput, quantityInput)){
+                findOrderList(orders);
                 break;
             }
 
@@ -51,9 +55,15 @@ public class Application {
                 System.out.println(e.getMessage());
             } catch (GlobalException e){
                 System.out.println(e.getMessage());
-                orderController.findOrderList(orders);
+                findOrderList(orders);
                 break;
             }
         }
+    }
+
+    private void findOrderList(List<Order> orders) {
+        FindOrderListDto dto = orderController.getTotalOrderAmount(orders);
+        orderListView.displayOrders(dto.getOrders(), dto.getTotalAmount(), dto.getDeliveryFee());
+        orders.clear();
     }
 }

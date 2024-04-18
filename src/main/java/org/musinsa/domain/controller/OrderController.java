@@ -1,13 +1,13 @@
 package org.musinsa.domain.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.musinsa.domain.dto.OrderDto;
+import org.musinsa.domain.dto.response.FindOrderListDto;
+import org.musinsa.domain.dto.request.OrderDto;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.NotFoundProductIdException;
 import org.musinsa.domain.service.OrderService;
 import org.musinsa.domain.service.ProductService;
-import org.musinsa.view.OrderListView;
 
 import java.util.List;
 
@@ -15,7 +15,6 @@ import java.util.List;
 public class OrderController {
     private final ProductService productService;
     private final OrderService orderService;
-    private final OrderListView orderListView;
 
     /**
      * 현재 상품의 List 출력
@@ -34,9 +33,8 @@ public class OrderController {
     /**
      * 주문 종료
      */
-    public boolean exitOrder(String productId, String quantityId, List<Order> orders) {
+    public boolean exitOrder(String productId, String quantityId) {
         if (productId.isEmpty() && quantityId.isEmpty()) {
-            findOrderList(orders);
             return true;
         }
         return false;
@@ -63,12 +61,11 @@ public class OrderController {
     }
 
     /**
-     * 최종 주문 구매에 대한 List 출력
+     * 최종 주문 금액
      */
-    public void findOrderList(List<Order> orders) {
+    public FindOrderListDto getTotalOrderAmount(List<Order> orders){
         Integer totalAmount = orderService.totalAmount(orders);
-        int deliveryFee = orderService.deliveryFee(totalAmount);
-        orderListView.displayOrders(orders, totalAmount, deliveryFee);
-        orders.clear();
+        Integer deliveryFee = orderService.deliveryFee(totalAmount);
+        return FindOrderListDto.from(orders, totalAmount, deliveryFee);
     }
 }

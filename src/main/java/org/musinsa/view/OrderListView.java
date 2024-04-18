@@ -16,7 +16,7 @@ public class OrderListView {
     private static final String TOTAL_PAYMENT = "지불금액: ";
     private static final DecimalFormat formatter = new DecimalFormat("#,##0원");
 
-    public void displayOrders(List<Order> orders, Integer totalAmount, int deliveryFee) {
+    public void displayOrders(List<Order> orders, Integer totalAmount, Integer deliveryFee) {
         if (totalAmount == null || orders.isEmpty()) {
             System.out.println(HAS_NO_ORDER);
             return;

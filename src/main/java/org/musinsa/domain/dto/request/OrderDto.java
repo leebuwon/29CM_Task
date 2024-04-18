@@ -1,4 +1,4 @@
-package org.musinsa.domain.dto;
+package org.musinsa.domain.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

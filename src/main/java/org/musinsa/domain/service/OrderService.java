@@ -39,7 +39,7 @@ public class OrderService {
                 .sum();
     }
 
-    public int deliveryFee(Integer totalAmount) {
+    public Integer deliveryFee(Integer totalAmount) {
         return totalAmount < FREE_DELIVERY_FEE ? DELIVERY_FEE : 0;
     }
 }
