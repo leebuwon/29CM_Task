@@ -52,8 +52,8 @@ public class OrderController {
      * 최종 주문 금액
      */
     public FindOrderListDto getTotalOrderAmount(List<Order> orders){
-        Integer totalAmount = orderService.totalAmount(orders);
-        Integer deliveryFee = orderService.deliveryFee(totalAmount);
+        Integer totalAmount = orderService.calculateTotalAmount(orders);
+        Integer deliveryFee = orderService.calculateDeliveryFee(totalAmount);
         return FindOrderListDto.from(orders, totalAmount, deliveryFee);
     }
 }

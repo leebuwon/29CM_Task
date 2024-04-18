@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.musinsa.domain.order.entity.Order;
-import org.musinsa.domain.order.service.OrderService;
 import org.musinsa.domain.product.entity.Product;
 import org.musinsa.domain.order.repository.impl.OrderRepositoryImpl;
 import org.musinsa.domain.product.repository.impl.ProductRepositoryImpl;
@@ -37,7 +36,7 @@ class OrderServiceTest {
     @DisplayName("5만원 미만 일 경우 배송비가 2500원이 붙는다.")
     void addsDeliveryFeeIfOrderUnder50000_success() {
         Product product = orderService.findByProduct(768848);
-        assertThat(orderService.deliveryFee(product.getPrice())).isEqualTo(2500);
+        assertThat(orderService.calculateDeliveryFee(product.getPrice())).isEqualTo(2500);
     }
 
     @Test
@@ -69,7 +68,7 @@ class OrderServiceTest {
                 .orElse(null);
         orderService.updateOrAddOrder(orders, existingOrder, product, 10);
 
-        Integer totalAmount = orderService.totalAmount(orders);
+        Integer totalAmount = orderService.calculateTotalAmount(orders);
         assertThat(totalAmount).isEqualTo(350000);
     }
 }

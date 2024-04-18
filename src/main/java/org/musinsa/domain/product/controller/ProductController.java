@@ -15,6 +15,6 @@ public class ProductController {
      * 현재 상품의 List 출력
      */
     public List<Product> displayProducts() {
-        return productService.getSortedProducts();
+        return productService.findProducts();
     }
 }

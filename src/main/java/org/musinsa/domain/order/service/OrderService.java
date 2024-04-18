@@ -39,13 +39,13 @@ public class OrderService {
         orderRepository.addOrder(new Order(product, quantity));
     }
 
-    public Integer totalAmount(List<Order> orders) {
+    public Integer calculateTotalAmount(List<Order> orders) {
         return orders.stream()
                 .mapToInt(order -> order.getProduct().getPrice() * order.getQuantity())
                 .sum();
     }
 
-    public Integer deliveryFee(Integer totalAmount) {
+    public Integer calculateDeliveryFee(Integer totalAmount) {
         return totalAmount < FREE_DELIVERY_FEE ? DELIVERY_FEE : 0;
     }
 

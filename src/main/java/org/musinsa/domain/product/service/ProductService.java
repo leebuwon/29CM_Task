@@ -10,10 +10,7 @@ import java.util.*;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    /**
-     * product List 역순 정렬
-     */
-    public List<Product> getSortedProducts() {
+    public List<Product> findProducts() {
         return productRepository.findAll();
     }
 
