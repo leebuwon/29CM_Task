@@ -25,7 +25,7 @@ public class OrderService {
         return orderRepository.existsByOrder(orders, productId);
     }
 
-    public void reduceStock(Product product, int quantity) {
+    public synchronized void reduceStock(Product product, int quantity) {
         productService.reduceStock(product, quantity);
     }
 

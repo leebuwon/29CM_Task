@@ -39,7 +39,7 @@ public class OrderController {
     /**
      * 주문 진행(잔고 감소, 여러차례 구매한 목록에 대한 수량 증가)
      */
-    public synchronized void processOrder(Product product, String quantity, List<Order> orders) {
+    public void processOrder(Product product, String quantity, List<Order> orders) {
         OrderQuantityDto dto = new OrderQuantityDto(quantity);
         Order existingOrder = orderService.findExistingOrder(orders, product.getId())
                 .orElse(null);
