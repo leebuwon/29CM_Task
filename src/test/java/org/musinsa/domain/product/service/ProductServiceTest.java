@@ -1,4 +1,4 @@
-package org.musinsa.domain.service;
+package org.musinsa.domain.product.service;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

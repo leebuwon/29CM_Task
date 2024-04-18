@@ -1,4 +1,4 @@
-package org.musinsa.domain.controller;
+package org.musinsa.domain.order.controller;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

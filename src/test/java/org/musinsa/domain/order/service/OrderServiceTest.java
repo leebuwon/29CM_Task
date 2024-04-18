@@ -1,4 +1,4 @@
-package org.musinsa.domain.service;
+package org.musinsa.domain.order.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
