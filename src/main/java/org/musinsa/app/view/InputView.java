@@ -1,4 +1,4 @@
-package org.musinsa.view;
+package org.musinsa.app.view;
 
 import lombok.AllArgsConstructor;
 import org.musinsa.global.util.Console;

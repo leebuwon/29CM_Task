@@ -1,14 +1,14 @@
 package org.musinsa.global.factory;
 
-import org.musinsa.controller.OrderController;
+import org.musinsa.domain.order.controller.OrderController;
 import org.musinsa.domain.order.repository.OrderRepository;
 import org.musinsa.domain.order.repository.impl.OrderRepositoryImpl;
 import org.musinsa.domain.order.service.OrderService;
 import org.musinsa.domain.product.service.ProductService;
 import org.musinsa.global.util.Console;
-import org.musinsa.view.InputView;
-import org.musinsa.view.OrderListView;
-import org.musinsa.view.ProductListView;
+import org.musinsa.app.view.InputView;
+import org.musinsa.app.view.OrderListView;
+import org.musinsa.app.view.ProductListView;
 
 public class SingletonFactory {
 

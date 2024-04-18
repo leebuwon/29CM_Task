@@ -1,4 +1,4 @@
-package org.musinsa.controller;
+package org.musinsa.domain.order.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.musinsa.domain.order.dto.response.FindOrderListDto;

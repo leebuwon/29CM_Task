@@ -4,7 +4,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.musinsa.controller.OrderController;
+import org.musinsa.domain.order.controller.OrderController;
 import org.musinsa.domain.order.dto.request.OrderDto;
 import org.musinsa.domain.order.entity.Order;
 import org.musinsa.domain.product.entity.Product;

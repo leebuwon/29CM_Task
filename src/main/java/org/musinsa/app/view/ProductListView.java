@@ -1,4 +1,4 @@
-package org.musinsa.view;
+package org.musinsa.app.view;
 
 import org.musinsa.domain.product.entity.Product;
 
