@@ -6,7 +6,6 @@ import org.musinsa.domain.order.dto.response.FindOrderListDto;
 import org.musinsa.domain.order.dto.request.OrderQuantityDto;
 import org.musinsa.domain.order.entity.Order;
 import org.musinsa.domain.product.entity.Product;
-import org.musinsa.domain.order.exception.NotFoundProductIdException;
 import org.musinsa.domain.order.service.OrderService;
 
 import java.util.List;
@@ -26,10 +25,7 @@ public class OrderController {
      * 주문 종료
      */
     public boolean exitOrder(String productId, String quantityId) {
-        if (productId.isEmpty() && quantityId.isEmpty()) {
-            return true;
-        }
-        return false;
+        return productId.isEmpty() && quantityId.isEmpty();
     }
 
     /**
@@ -51,7 +47,7 @@ public class OrderController {
     /**
      * 잔고 감소, 여러차례 구매한 목록에 대한 수량 증가
      */
-    public synchronized void executeOrder(Product product, int quantity, List<Order> orders) throws NotFoundProductIdException{
+    public synchronized void executeOrder(Product product, int quantity, List<Order> orders) {
         Order existingOrder = orderService.findExistingOrder(orders, product.getId())
                 .orElse(null);
 

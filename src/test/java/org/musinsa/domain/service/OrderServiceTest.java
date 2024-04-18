@@ -10,6 +10,7 @@ import org.musinsa.domain.order.entity.Order;
 import org.musinsa.domain.order.service.OrderService;
 import org.musinsa.domain.product.entity.Product;
 import org.musinsa.domain.order.repository.impl.OrderRepositoryImpl;
+import org.musinsa.domain.product.repository.impl.ProductRepositoryImpl;
 import org.musinsa.domain.product.service.ProductService;
 
 import java.util.List;
@@ -26,7 +27,8 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         OrderRepositoryImpl orderRepositoryImpl = new OrderRepositoryImpl();
-        ProductService productService = new ProductService();
+        ProductRepositoryImpl productRepository = new ProductRepositoryImpl();
+        ProductService productService = new ProductService(productRepository);
         orderService = new OrderService(productService, orderRepositoryImpl);
         orders = orderService.findOrders();
     }

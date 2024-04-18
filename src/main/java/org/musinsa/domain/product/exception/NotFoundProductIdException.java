@@ -1,4 +1,4 @@
-package org.musinsa.domain.order.exception;
+package org.musinsa.domain.product.exception;
 
 import org.musinsa.global.exception.OrderInputException;
 

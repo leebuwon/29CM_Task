@@ -1,24 +1,22 @@
 package org.musinsa.domain.product.service;
 
+import lombok.RequiredArgsConstructor;
 import org.musinsa.domain.product.entity.Product;
-import org.musinsa.domain.order.exception.NotFoundProductIdException;
+import org.musinsa.domain.product.exception.NotFoundProductIdException;
+import org.musinsa.domain.product.repository.ProductRepository;
 import org.musinsa.global.storage.ProductStorage;
 
 import java.util.*;
 
+@RequiredArgsConstructor
 public class ProductService {
-    private final List<Product> products;
-
+    private final ProductRepository productRepository;
     /**
      * product List 역순 정렬
      */
-    public ProductService() {
-        this.products = ProductStorage.getProducts();
-        this.products.sort(Comparator.comparing(Product::getId).reversed());
-    }
 
     public List<Product> getSortedProducts() {
-        return products;
+        return productRepository.findAll();
     }
 
     public void reduceStock(int productId, int quantity) {
@@ -27,9 +25,7 @@ public class ProductService {
     }
 
     public Product findProductId(int productId) {
-        return products.stream()
-                .filter(product -> product.getId() == productId)
-                .findFirst()
-                .orElseThrow(() -> new NotFoundProductIdException("NotFoundProductIdException 발생, 잘못된 상품번호입니다."));
+        return productRepository.findProductById(productId);
     }
+
 }
