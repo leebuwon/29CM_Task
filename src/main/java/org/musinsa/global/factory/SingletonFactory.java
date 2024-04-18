@@ -18,67 +18,67 @@ public class SingletonFactory {
     private SingletonFactory() {}
 
     private static final class ProductServiceHolder {
-        private static final ProductService productService = new ProductService(getProductRepository());
+        private static final ProductService PRODUCT_SERVICE = new ProductService(getProductRepository());
     }
 
     private static final class ProductRepositoryHolder {
-        private static final ProductRepository productRepository = new ProductRepositoryImpl();
+        private static final ProductRepository PRODUCT_REPOSITORY = new ProductRepositoryImpl();
     }
 
     private static final class OrderServiceHolder {
-        private static final OrderService orderService = new OrderService(getProductService(), getOrderRepository());
+        private static final OrderService ORDER_SERVICE = new OrderService(getProductService(), getOrderRepository());
     }
 
     private static final class OrderRepositoryHolder {
-        private static final OrderRepository orderRepository = new OrderRepositoryImpl();
+        private static final OrderRepository ORDER_REPOSITORY = new OrderRepositoryImpl();
     }
 
     private static final class ProductListViewHolder {
-        private static final ProductListView productListView = new ProductListView();
+        private static final ProductListView PRODUCT_LIST_VIEW = new ProductListView();
     }
 
     private static final class OrderListViewHolder {
-        private static final OrderListView orderListView = new OrderListView();
+        private static final OrderListView ORDER_LIST_VIEW = new OrderListView();
     }
 
     private static final class ConsoleHolder {
-        private static final Console console = new Console();
+        private static final Console CONSOLE = new Console();
     }
 
     private static final class InputViewHolder {
-        private static final InputView inputView = new InputView(getConsole());
+        private static final InputView INPUT_VIEW = new InputView(getConsole());
     }
 
     public static ProductService getProductService() {
-        return ProductServiceHolder.productService;
+        return ProductServiceHolder.PRODUCT_SERVICE;
     }
 
     public static ProductRepository getProductRepository() {
-        return ProductRepositoryHolder.productRepository;
+        return ProductRepositoryHolder.PRODUCT_REPOSITORY;
     }
 
     public static OrderService getOrderService() {
-        return OrderServiceHolder.orderService;
+        return OrderServiceHolder.ORDER_SERVICE;
     }
 
     public static OrderRepository getOrderRepository() {
-        return OrderRepositoryHolder.orderRepository;
+        return OrderRepositoryHolder.ORDER_REPOSITORY;
     }
 
     public static ProductListView getProductListView() {
-        return ProductListViewHolder.productListView;
+        return ProductListViewHolder.PRODUCT_LIST_VIEW;
     }
 
     public static OrderListView getOrderListView() {
-        return OrderListViewHolder.orderListView;
+        return OrderListViewHolder.ORDER_LIST_VIEW;
     }
 
     public static Console getConsole() {
-        return ConsoleHolder.console;
+        return ConsoleHolder.CONSOLE;
     }
 
     public static InputView getInputView() {
-        return InputViewHolder.inputView;
+        return InputViewHolder.INPUT_VIEW;
     }
 
 
