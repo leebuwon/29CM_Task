@@ -1,4 +1,4 @@
-package org.musinsa.domain.exception;
+package org.musinsa.domain.order.exception;
 
 import org.musinsa.global.exception.GlobalException;
 

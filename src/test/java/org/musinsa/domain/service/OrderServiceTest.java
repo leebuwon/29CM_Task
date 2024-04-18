@@ -6,9 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.musinsa.domain.entity.Order;
-import org.musinsa.domain.entity.Product;
-import org.musinsa.domain.repository.impl.OrderRepositoryImpl;
+import org.musinsa.domain.order.entity.Order;
+import org.musinsa.domain.order.service.OrderService;
+import org.musinsa.domain.product.entity.Product;
+import org.musinsa.domain.order.repository.impl.OrderRepositoryImpl;
 
 import java.util.List;
 

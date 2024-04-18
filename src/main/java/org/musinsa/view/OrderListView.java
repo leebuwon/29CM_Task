@@ -1,7 +1,7 @@
 package org.musinsa.view;
 
-import org.musinsa.domain.entity.Order;
-import org.musinsa.domain.entity.Product;
+import org.musinsa.domain.order.entity.Order;
+import org.musinsa.domain.product.entity.Product;
 
 import java.text.DecimalFormat;
 import java.util.List;

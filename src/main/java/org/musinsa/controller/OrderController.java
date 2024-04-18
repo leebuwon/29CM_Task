@@ -1,13 +1,13 @@
-package org.musinsa.domain.controller;
+package org.musinsa.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.musinsa.domain.dto.response.FindOrderListDto;
-import org.musinsa.domain.dto.request.OrderDto;
-import org.musinsa.domain.entity.Order;
-import org.musinsa.domain.entity.Product;
-import org.musinsa.domain.exception.NotFoundProductIdException;
-import org.musinsa.domain.service.OrderService;
-import org.musinsa.domain.service.ProductService;
+import org.musinsa.domain.order.dto.response.FindOrderListDto;
+import org.musinsa.domain.order.dto.request.OrderDto;
+import org.musinsa.domain.order.entity.Order;
+import org.musinsa.domain.product.entity.Product;
+import org.musinsa.domain.order.exception.NotFoundProductIdException;
+import org.musinsa.domain.order.service.OrderService;
+import org.musinsa.domain.product.service.ProductService;
 
 import java.util.List;
 

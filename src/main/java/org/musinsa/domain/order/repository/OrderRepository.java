@@ -1,6 +1,6 @@
-package org.musinsa.domain.repository;
+package org.musinsa.domain.order.repository;
 
-import org.musinsa.domain.entity.Order;
+import org.musinsa.domain.order.entity.Order;
 
 import java.util.List;
 import java.util.Optional;

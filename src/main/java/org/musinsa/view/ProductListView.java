@@ -1,6 +1,6 @@
 package org.musinsa.view;
 
-import org.musinsa.domain.entity.Product;
+import org.musinsa.domain.product.entity.Product;
 
 public class ProductListView {
     private static final String HEADER_FORMAT = "%-8s %-28s %-7s %s%n";

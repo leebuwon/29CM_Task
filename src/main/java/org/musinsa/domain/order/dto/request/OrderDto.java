@@ -1,9 +1,9 @@
-package org.musinsa.domain.dto.request;
+package org.musinsa.domain.order.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.musinsa.domain.exception.InvalidInputFormatException;
+import org.musinsa.domain.order.exception.InvalidInputFormatException;
 
 import java.util.Optional;
 

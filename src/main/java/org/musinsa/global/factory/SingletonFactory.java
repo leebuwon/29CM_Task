@@ -1,10 +1,10 @@
 package org.musinsa.global.factory;
 
-import org.musinsa.domain.controller.OrderController;
-import org.musinsa.domain.repository.OrderRepository;
-import org.musinsa.domain.repository.impl.OrderRepositoryImpl;
-import org.musinsa.domain.service.OrderService;
-import org.musinsa.domain.service.ProductService;
+import org.musinsa.controller.OrderController;
+import org.musinsa.domain.order.repository.OrderRepository;
+import org.musinsa.domain.order.repository.impl.OrderRepositoryImpl;
+import org.musinsa.domain.order.service.OrderService;
+import org.musinsa.domain.product.service.ProductService;
 import org.musinsa.global.util.Console;
 import org.musinsa.view.InputView;
 import org.musinsa.view.OrderListView;

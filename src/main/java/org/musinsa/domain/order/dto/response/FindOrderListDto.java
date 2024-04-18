@@ -1,9 +1,9 @@
-package org.musinsa.domain.dto.response;
+package org.musinsa.domain.order.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.musinsa.domain.entity.Order;
+import org.musinsa.domain.order.entity.Order;
 
 import java.util.List;
 

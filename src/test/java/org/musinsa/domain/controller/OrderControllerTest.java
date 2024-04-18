@@ -4,11 +4,12 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.musinsa.domain.dto.request.OrderDto;
-import org.musinsa.domain.entity.Order;
-import org.musinsa.domain.entity.Product;
-import org.musinsa.domain.exception.InvalidInputFormatException;
-import org.musinsa.domain.exception.SoldOutException;
+import org.musinsa.controller.OrderController;
+import org.musinsa.domain.order.dto.request.OrderDto;
+import org.musinsa.domain.order.entity.Order;
+import org.musinsa.domain.product.entity.Product;
+import org.musinsa.domain.order.exception.InvalidInputFormatException;
+import org.musinsa.domain.order.exception.SoldOutException;
 import org.musinsa.global.factory.SingletonFactory;
 
 import java.util.ArrayList;

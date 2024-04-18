@@ -1,9 +1,9 @@
-package org.musinsa.domain.entity;
+package org.musinsa.domain.product.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
-import org.musinsa.domain.exception.SoldOutException;
+import org.musinsa.domain.order.exception.SoldOutException;
 
 @Getter
 @ToString

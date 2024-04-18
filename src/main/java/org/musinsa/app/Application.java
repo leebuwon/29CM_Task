@@ -1,9 +1,9 @@
 package org.musinsa.app;
 
-import org.musinsa.domain.controller.OrderController;
-import org.musinsa.domain.dto.response.FindOrderListDto;
-import org.musinsa.domain.entity.Order;
-import org.musinsa.domain.entity.Product;
+import org.musinsa.controller.OrderController;
+import org.musinsa.domain.order.dto.response.FindOrderListDto;
+import org.musinsa.domain.order.entity.Order;
+import org.musinsa.domain.product.entity.Product;
 import org.musinsa.global.exception.GlobalException;
 import org.musinsa.global.exception.OrderInputException;
 import org.musinsa.global.factory.SingletonFactory;

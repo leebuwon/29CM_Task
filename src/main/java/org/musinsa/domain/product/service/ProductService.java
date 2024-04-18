@@ -1,7 +1,7 @@
-package org.musinsa.domain.service;
+package org.musinsa.domain.product.service;
 
-import org.musinsa.domain.entity.Product;
-import org.musinsa.domain.exception.NotFoundProductIdException;
+import org.musinsa.domain.product.entity.Product;
+import org.musinsa.domain.order.exception.NotFoundProductIdException;
 
 import java.util.*;
 
