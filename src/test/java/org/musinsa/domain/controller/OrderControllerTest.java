@@ -44,10 +44,7 @@ public class OrderControllerTest {
     @DisplayName("멀티 스레드환경에서 주문 수량을 초과하면 SoldOutException 발생한다.")
     void multiThreadedOrderExceedsStockThrowsSoldOut_success() throws InterruptedException {;
         Product product = orderController.findProduct("782858");
-
-        OrderQuantityDto orderQuantityDto = OrderQuantityDto.builder()
-                .quantity(1)
-                .build();
+        String quantity = "1";
 
         int numThreads = 100;
         CountDownLatch doneSignal = new CountDownLatch(numThreads);
@@ -59,7 +56,7 @@ public class OrderControllerTest {
         for (int i = 0; i < numThreads; i++){
             executorService.execute(() -> {
                 try {
-                    orderController.executeOrder(product, orderQuantityDto.getQuantity(), orders);
+                    orderController.processOrder(product, quantity, orders);
                     successCount.getAndIncrement();
                 } catch (SoldOutException e) { // SoldOutException 발생할 경우 failCount 증가
                     failCount.getAndIncrement();
@@ -81,11 +78,8 @@ public class OrderControllerTest {
     @DisplayName("수량이 70개의 상품에서 10개를 구매하면 60개가 된다.")
     void reduceStock_success() {
         Product product = orderController.findProduct("760709");
-        OrderQuantityDto orderQuantityDto = OrderQuantityDto.builder()
-                .quantity(10)
-                .build();
-
-        orderController.executeOrder(product, orderQuantityDto.getQuantity(), orders);
+        String quantity = "10";
+        orderController.processOrder(product, quantity, orders);
 
         assertThat(product.getStock()).isEqualTo(60);
     }
@@ -94,11 +88,9 @@ public class OrderControllerTest {
     @DisplayName("재고보다 많은 수량을 구매하면 SoldOutException 발생한다.")
     void OrderExceedsStockThrowsSoldOut_success() {
         Product product = orderController.findProduct("768848");
-        OrderQuantityDto orderQuantityDto = OrderQuantityDto.builder()
-                .quantity(50)
-                .build();
+        String quantity = "50";
 
-        assertThatThrownBy(() -> orderController.executeOrder(product, orderQuantityDto.getQuantity(), orders))
+        assertThatThrownBy(() -> orderController.processOrder(product, quantity, orders))
                 .isInstanceOf(SoldOutException.class)
                 .hasMessageContaining("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
     }
@@ -106,7 +98,8 @@ public class OrderControllerTest {
     @Test
     @DisplayName("상품 번호를 잘못 입력하였을 경우 InvalidInputFormatException 발생")
     void invalidProductIdInputThrowException_success() {
-        assertThatThrownBy(() -> new OrderProductIdDto("abcde"))
+        String productId = "abcde";
+        assertThatThrownBy(() -> new OrderProductIdDto(productId))
                 .isInstanceOf(InvalidInputFormatException.class)
                 .hasMessageContaining("InvalidInputFormatException 발생, 상품번호는 숫자로 입력되어야 합니다.");
     }
@@ -114,7 +107,8 @@ public class OrderControllerTest {
     @Test
     @DisplayName("수량을 잘못 입력하였을 경우 InvalidInputFormatException 발생")
     void invalidQuantityInputThrowException_success() {
-        assertThatThrownBy(() -> new OrderQuantityDto("abcd"))
+        String quantity = "abcd";
+        assertThatThrownBy(() -> new OrderQuantityDto(quantity))
                 .isInstanceOf(InvalidInputFormatException.class)
                 .hasMessageContaining("InvalidInputFormatException 발생, 수량은 숫자로 입력되어야 합니다.");
     }

@@ -37,22 +37,15 @@ public class OrderController {
     }
 
     /**
-     * 주문 진행 과정
+     * 주문 진행(잔고 감소, 여러차례 구매한 목록에 대한 수량 증가)
      */
-    public void processOrder(Product product, String quantity, List<Order> orders) {
-        OrderQuantityDto orderQuantityDto = new OrderQuantityDto(quantity);
-        executeOrder(product, orderQuantityDto.getQuantity(), orders);
-    }
-
-    /**
-     * 잔고 감소, 여러차례 구매한 목록에 대한 수량 증가
-     */
-    public synchronized void executeOrder(Product product, int quantity, List<Order> orders) {
+    public synchronized void processOrder(Product product, String quantity, List<Order> orders) {
+        OrderQuantityDto dto = new OrderQuantityDto(quantity);
         Order existingOrder = orderService.findExistingOrder(orders, product.getId())
                 .orElse(null);
 
-        orderService.reduceStock(product.getId(), quantity);
-        orderService.updateOrAddOrder(orders, existingOrder, product, quantity);
+        orderService.reduceStock(product.getId(), dto.getQuantity());
+        orderService.updateOrAddOrder(orders, existingOrder, product, dto.getQuantity());
     }
 
     /**

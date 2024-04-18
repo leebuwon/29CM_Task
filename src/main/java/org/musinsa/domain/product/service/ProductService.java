@@ -11,10 +11,10 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+
     /**
      * product List 역순 정렬
      */
-
     public List<Product> getSortedProducts() {
         return productRepository.findAll();
     }
