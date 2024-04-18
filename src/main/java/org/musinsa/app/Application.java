@@ -4,6 +4,7 @@ import org.musinsa.domain.controller.OrderController;
 import org.musinsa.domain.entity.Order;
 import org.musinsa.domain.entity.Product;
 import org.musinsa.domain.exception.SoldOutException;
+import org.musinsa.global.exception.GlobalException;
 import org.musinsa.global.exception.OrderInputException;
 import org.musinsa.global.factory.SingletonFactory;
 import org.musinsa.view.InputView;
@@ -46,7 +47,7 @@ public class Application {
                 if (orderController.processOrder(productIdInput, quantityInput, orders)) break;
             } catch (OrderInputException e) {
                 System.out.println(e.getMessage());
-            } catch (SoldOutException e){
+            } catch (GlobalException e){
                 System.out.println(e.getMessage());
                 orderController.findOrderList(orders);
                 break;
