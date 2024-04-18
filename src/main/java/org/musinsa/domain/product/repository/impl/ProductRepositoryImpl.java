@@ -23,7 +23,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Product findProductById(int productId) {
+    public Product findByProductId(int productId) {
         return products.stream()
                 .filter(product -> product.getId() == productId)
                 .findFirst()

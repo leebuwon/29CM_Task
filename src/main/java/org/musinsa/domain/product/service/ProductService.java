@@ -2,9 +2,7 @@ package org.musinsa.domain.product.service;
 
 import lombok.RequiredArgsConstructor;
 import org.musinsa.domain.product.entity.Product;
-import org.musinsa.domain.product.exception.NotFoundProductIdException;
 import org.musinsa.domain.product.repository.ProductRepository;
-import org.musinsa.global.storage.ProductStorage;
 
 import java.util.*;
 
@@ -25,7 +23,7 @@ public class ProductService {
     }
 
     public Product findProductId(int productId) {
-        return productRepository.findProductById(productId);
+        return productRepository.findByProductId(productId);
     }
 
 }

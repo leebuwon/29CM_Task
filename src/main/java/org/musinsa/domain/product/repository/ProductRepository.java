@@ -8,5 +8,5 @@ public interface ProductRepository {
 
     List<Product> findAll();
 
-    Product findProductById(int productId);
+    Product findByProductId(int productId);
 }
