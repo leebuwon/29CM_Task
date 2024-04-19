@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.musinsa.domain.product.exception.NotFoundProductIdException;
 import org.musinsa.domain.product.repository.impl.ProductRepositoryImpl;
-import org.musinsa.domain.product.service.ProductService;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
